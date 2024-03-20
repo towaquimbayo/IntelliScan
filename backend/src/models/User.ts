@@ -5,6 +5,8 @@ interface IUser extends Document {
     email: string;
     password: string;
     date: Date;
+    api_calls: number;
+    admin: boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -28,6 +30,14 @@ const UserSchema: Schema = new Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    api_calls: {
+        type: Number,
+        default: 0
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 })
 
