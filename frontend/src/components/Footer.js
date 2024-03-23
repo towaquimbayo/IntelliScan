@@ -1,9 +1,7 @@
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer__content">
-        <p>Copyright © IntelliScan</p>
-      </div>
+      <p>Copyright 2024 © IntelliScan</p>
     </footer>
   );
 }

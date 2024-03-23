@@ -16,7 +16,7 @@ export default function Layout({ title, isLandingPage = false, children }) {
         </title>
       </Helmet>
       <Navbar />
-      <div>{children}</div>
+      <div id="wrapper">{children}</div>
       <Footer />
     </>
   );
