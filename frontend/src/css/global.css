@@ -28,6 +28,7 @@ body {
   max-width: 1600px;
   margin: 18vh auto 0;
   padding: 0 7rem;
+  min-height: 76vh;
 }
 
 .navbar {
@@ -86,8 +87,145 @@ body {
 
 .footer {
   width: 100%;
-  margin-bottom: 2rem;
+  padding: 1rem 0;
   text-align: center;
-  position: fixed;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-top: solid 1px #efefef;
+  position: sticky;
   bottom: 0;
+}
+
+.alertMessageContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.25rem;
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+}
+
+.alertMessageContainer p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.5rem;
+  text-align: left;
+  padding-left: 5px;
+  margin-bottom: 2px;
+  width: 100%;
+}
+
+.alertMessageContainer svg {
+  width: 1.5rem;
+  height: auto;
+}
+
+.alertMessageContainer.error {
+  border: solid 1px var(--errorColor);
+}
+
+.alertMessageContainer.error p {
+  color: var(--errorColor);
+}
+
+.alertMessageContainer.success {
+  border: solid 1px var(--successColor);
+}
+
+.alertMessageContainer.success p {
+  color: var(--successColor);
+}
+
+.alertMessageContainer.info {
+  border: solid 1px var(--infoColor);
+}
+
+.alertMessageContainer.info p {
+  color: var(--infoColor);
+}
+
+.btnPrimary {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 12px;
+  color: white;
+  background-color: var(--primaryColor);
+  border: solid 2px var(--primaryColor);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  -webkit-transition: all ease-in-out 0.3s;
+  -moz-transition: all ease-in-out 0.3s;
+  -ms-transition: all ease-in-out 0.3s;
+  -o-transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.8;
+}
+
+.buttonSpinner {
+  -ms-animation: btnSpinner 1s infinite linear;
+  -moz-animation: btnSpinner 1s infinite linear;
+  -webkit-animation: btnSpinner 1s infinite linear;
+  -o-animation: btnSpinner 1s infinite linear;
+  animation: btnSpinner 1s infinite linear;
+}
+
+@keyframes btnSpinner {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #wrapper {
+    max-width: 100%;
+    padding: 0 5rem;
+  }
+  .navbar {
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #wrapper {
+    padding: 0 3rem;
+  }
+  .navbar {
+    padding: 0 2rem;
+  }
+  .navContainer {
+    padding: 1.5rem 2rem;
+  }
+  .navLinksContainer {
+    gap: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #wrapper {
+    padding: 0 1.5rem;
+  }
 }
