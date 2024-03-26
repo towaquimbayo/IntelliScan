@@ -7,9 +7,10 @@ type RequestBody = {
     name: string;
     email: string;
     password: string
+    admin: boolean;
 }
 export const registerUser = async (req: Request, res: Response) => {
-    const { name, email, password }: RequestBody = req.body;
+    const { name, email, password, admin }: RequestBody = req.body;
 
     // hash the password
     const salt = await bcrypt.genSalt(10);
@@ -18,7 +19,8 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = new User({
         name: name,
         email: email,
-        password: hashedPassword
+        password: hashedPassword,
+        admin: admin ?? false
     });
     try {
         await user.save();
