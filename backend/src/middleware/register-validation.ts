@@ -18,7 +18,6 @@ type RequestBody = {
 export const registerValidation = async (req: Request, res: Response, next: NextFunction) => {
     // validating using zod
     const parsed = registerSchema.safeParse(req.body);
-    console.log(parsed);
     if (!parsed.success)
         res.status(400).send(parsed.error)
     else {
