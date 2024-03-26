@@ -7,6 +7,9 @@ export default function Layout({ title, isLandingPage = false, children }) {
   if (title && typeof document !== "undefined") {
     document.title = isLandingPage ? "IntelliScan" : `${title} | IntelliScan`;
   }
+
+  const showNavFoot = !(title === "Login" || title === "Signup");
+
   return (
     <>
       <Helmet>
@@ -15,9 +18,9 @@ export default function Layout({ title, isLandingPage = false, children }) {
           {isLandingPage ? "IntelliScan" : `${title} | IntelliScan`}
         </title>
       </Helmet>
-      <Navbar />
-      <div id="wrapper">{children}</div>
-      <Footer />
+      {showNavFoot && <Navbar />}
+      {showNavFoot ? <div id="wrapper">{children}</div> : children}
+      {showNavFoot && <Footer />}
     </>
   );
 }

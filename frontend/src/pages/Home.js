@@ -121,8 +121,8 @@ export default function Home() {
                     <span>Loading...</span>
                   </>
                 ) : (
-                "Submit File"
-              )}
+                  "Submit File"
+                )}
               </button>
             </div>
             <div className="fileInfoContainer">
