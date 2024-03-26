@@ -17,11 +17,13 @@ const zod_1 = require("zod");
 const User_1 = __importDefault(require("../models/User"));
 const registerSchema = zod_1.z.object({
     name: zod_1.z.string().min(3),
-    email: zod_1.z.string().min(6).email(),
-    password: zod_1.z.string().min(6)
+    email: zod_1.z.string().min(3).email(),
+    password: zod_1.z.string().min(3),
+    admin: zod_1.z.boolean().optional()
 }).strict();
 const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = registerSchema.safeParse(req.body);
+    console.log(parsed);
     if (!parsed.success)
         res.status(400).send(parsed.error);
     else {

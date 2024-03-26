@@ -22,6 +22,14 @@ const UserSchema = new mongoose_1.Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    api_calls: {
+        type: Number,
+        default: 0
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 const User = (0, mongoose_1.model)('User', UserSchema);

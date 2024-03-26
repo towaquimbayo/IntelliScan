@@ -17,13 +17,14 @@ const User_1 = __importDefault(require("../models/User"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
+    const { name, email, password, admin } = req.body;
     const salt = yield bcryptjs_1.default.genSalt(10);
     const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
     const user = new User_1.default({
         name: name,
         email: email,
-        password: hashedPassword
+        password: hashedPassword,
+        admin: admin !== null && admin !== void 0 ? admin : false
     });
     try {
         yield user.save();
