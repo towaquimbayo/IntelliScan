@@ -83,7 +83,7 @@
   padding: 1rem 1.5rem;
   background-color: #f9f9f9;
   border: solid 1px #efefef;
-  border-radius: 0.75rem;
+  border-radius: 0.25rem;
 }
 
 #uploadFileContainer .fileInfoContainer .instructions {
@@ -133,7 +133,7 @@
   .fileInfoContainer
   .removeFileContainer
   input[type="button"] {
-  font-family: "quiet-sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -156,11 +156,71 @@
   margin-bottom: 1.5rem;
 }
 
-#uploadFileContainer .fileSubmitContainer h2 {
+#uploadFileContainer .fileSubmitContainer .fileSubmitHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#uploadFileContainer .fileSubmitContainer .fileSubmitHeader h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
 }
+
+.promptContainer {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.promptContainer .promptLabel {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.promptContainer textarea {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: solid 1px #e5e5e5;
+  border-radius: 0.25rem;
+  resize: vertical;
+  outline: none;
+  min-height: 150px;
+}
+
+.promptContainer textarea:focus {
+  border-color: var(--secondaryColor);
+}
+
+.modelAPIResponseContainer {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.modelAPIResponseContainer h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.modelAPIResponseContainer .modelAPIResponse {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border: solid 1px #e5e5e5;
+  border-radius: 0.25rem;
+  min-height: 150px;
+}
+
+.modelAPIResponseContainer .modelAPIResponse p {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
 
 @media screen and (max-width: 992px) {
   #uploadFileContainer {

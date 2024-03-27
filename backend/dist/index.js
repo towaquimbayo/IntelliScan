@@ -19,21 +19,23 @@ const not_found_1 = require("./middleware/not-found");
 const error_handler_1 = require("./middleware/error-handler");
 const auth_1 = __importDefault(require("./routes/auth"));
 const protected_1 = __importDefault(require("./routes/protected"));
+const file_1 = __importDefault(require("./routes/file"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const cors_1 = __importDefault(require("cors"));
 const port = process.env.PORT || 8080;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Headers", "*");
     next();
 });
 app.use((0, cors_1.default)());
-app.use('/api/user', auth_1.default);
-app.use('/api/protected', protected_1.default);
+app.use("/api/user", auth_1.default);
+app.use("/api/file", file_1.default);
+app.use("/api/protected", protected_1.default);
 app.use(not_found_1.notFound);
 app.use(error_handler_1.errorHandlerMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
