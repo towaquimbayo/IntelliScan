@@ -35,5 +35,14 @@ export const loginUser = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
     });
-    res.header('Authorization', `Bearer ${token}`).send(token);
+    res.header('Authorization', `Bearer ${token}`);
+    res.cookie('token', token, { 
+        httpOnly: true,
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
+    });
+    res.send({
+        "status": "success",
+        "message": "User logged in successfully!",
+    });
 }

@@ -27,8 +27,6 @@ export default function Login() {
       });
 
       if (response.ok) {
-        const data = await response.text();
-        localStorage.setItem("token", data);
         dispatch(setUserLoggedIn(true));
         setLoading(false);
         navigate("/");
