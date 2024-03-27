@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { FaSpinner } from "react-icons/fa";
 import Layout from "../components/Layout";
 import AlertMessage from "../components/AlertMessage";
+import Button from "../components/Button";
 import "../css/home.css";
 
 export default function Home() {
@@ -109,21 +109,12 @@ export default function Home() {
           <>
             <div className="fileSubmitContainer">
               <h2>Ready to Submit?</h2>
-              <button
-                type="button"
+              <Button
                 title="Submit file"
                 onClick={submitFile}
-                className="btnPrimary"
-              >
-                {loading ? (
-                  <>
-                    <FaSpinner size="16" className="buttonSpinner" />
-                    <span>Loading...</span>
-                  </>
-                ) : (
-                  "Submit File"
-                )}
-              </button>
+                loading={loading}
+                text="Submit File"
+              />
             </div>
             <div className="fileInfoContainer">
               <div className="instructions">

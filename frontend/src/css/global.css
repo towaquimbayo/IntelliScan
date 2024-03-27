@@ -157,7 +157,7 @@ body {
   color: white;
   background-color: var(--primaryColor);
   border: solid 2px var(--primaryColor);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,6 +168,10 @@ body {
   -ms-transition: all ease-in-out 0.3s;
   -o-transition: all ease-in-out 0.3s;
   transition: all ease-in-out 0.3s;
+}
+
+.btnPrimary.full {
+  width: 100%;
 }
 
 .btnPrimary:hover {

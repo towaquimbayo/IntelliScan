@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setUserLoggedIn } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
+import Button from "../components/Button";
 import "../css/auth.css";
 
 export default function Login() {
@@ -10,9 +11,11 @@ export default function Login() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch("/api/user/login", {
@@ -27,6 +30,7 @@ export default function Login() {
         const data = await response.text();
         localStorage.setItem("token", data);
         dispatch(setUserLoggedIn(true));
+        setLoading(false);
         navigate("/");
       } else {
         // Handle error case
@@ -34,6 +38,8 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Error during login:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,16 +48,33 @@ export default function Login() {
       <div className="auth-container">
         <div className="auth-illustration">
           <div className="auth-info">
-            <Link to="/" className="logo">IntelliScan</Link>
+            <Link to="/" className="logo">
+              IntelliScan
+            </Link>
             <div className="auth-info-head">
               <h1>Chat with your documents in seconds.</h1>
-              <p>IntelliScan allows you to have conversations with any PDF document. Simply upload your file and start asking questions right away.</p>
+              <p>
+                IntelliScan allows you to have conversations with any PDF
+                document. Simply upload your file and start asking questions
+                right away.
+              </p>
             </div>
             <div className="review">
-              <p><q><i>Simply unbelievable! I am really satisfied with the quality of replies from the AI bot. This is absolutely wonderful.</i></q></p>
+              <p>
+                <q>
+                  <i>
+                    Simply unbelievable! I am really satisfied with the quality
+                    of replies from the AI bot. This is absolutely wonderful.
+                  </i>
+                </q>
+              </p>
               <div className="reviewer">
                 <div className="avatar">
-                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Whiskers" alt="avatar" width={35} />
+                  <img
+                    src="https://api.dicebear.com/8.x/avataaars/svg?seed=Whiskers"
+                    alt="avatar"
+                    width={35}
+                  />
                 </div>
                 <div>
                   <p className="name">John Doe</p>
@@ -83,8 +106,17 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn-primary">Login</button>
-            <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            <Button
+              type="submit"
+              title="Login"
+              loading={loading}
+              text="Login"
+              full
+              customStyle={{ marginTop: "2rem" }}
+            />
+            <p>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </p>
           </form>
         </div>
       </div>
