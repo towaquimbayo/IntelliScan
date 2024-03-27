@@ -1,7 +1,7 @@
 #uploadFileContainer {
   max-width: 800px;
   margin: auto;
-  padding-top: 3rem;
+  padding: 3rem 0;
 }
 
 #uploadFileContainer .dragdropContainer {
@@ -150,19 +150,13 @@
 
 #uploadFileContainer .fileSubmitContainer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
   width: 100%;
   margin-bottom: 1.5rem;
 }
 
-#uploadFileContainer .fileSubmitContainer .fileSubmitHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-#uploadFileContainer .fileSubmitContainer .fileSubmitHeader h2 {
+#uploadFileContainer .fileSubmitContainer h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;

@@ -134,16 +134,8 @@ export default function Home() {
               <AlertMessage msg={fieldErrors.prompt} type="error" />
             )}
             <div className="fileSubmitContainer">
-              <div className="fileSubmitHeader">
-                <h2>Ready to Submit Prompt?</h2>
-                <span>You have {apiCalls} API calls left.</span>
-              </div>
-              <Button
-                title="Submit file"
-                onClick={submitFile}
-                loading={loading}
-                text="Submit File"
-              />
+              <h2>Ready to Submit Prompt?</h2>
+              <span>You have {apiCalls} API calls left.</span>
             </div>
             <div className="fileInfoContainer">
               <div className="instructions">
@@ -186,6 +178,13 @@ export default function Home() {
                   setFieldErrors({});
                 }}
               ></textarea>
+              <Button
+                title="Submit Prompt"
+                onClick={submitFile}
+                loading={loading}
+                text="Submit Prompt"
+                customStyle={{ marginTop: "1rem" }}
+              />
             </div>
             <div className="modelAPIResponseContainer">
               <h2>Model API Response</h2>
