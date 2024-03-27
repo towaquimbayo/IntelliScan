@@ -23,7 +23,6 @@ const registerSchema = zod_1.z.object({
 }).strict();
 const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = registerSchema.safeParse(req.body);
-    console.log(parsed);
     if (!parsed.success)
         res.status(400).send(parsed.error);
     else {

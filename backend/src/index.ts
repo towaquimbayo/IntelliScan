@@ -7,12 +7,20 @@ import authRoute from './routes/auth'
 import protectedRoutes from './routes/protected'
 import dotenv from 'dotenv'
 dotenv.config()
+import cors from 'cors'
 
-const port = process.env.PORT || 3000;
-
+const port = process.env.PORT || 8080;
 
 // middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
+app.use(cors());
 
 // Routes
 app.use('/api/user', authRoute);
