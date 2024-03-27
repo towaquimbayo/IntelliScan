@@ -15,22 +15,15 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="navLinksContainer">
-          <NavLink
-            className="navLink"
-            to="/admin-dashboard"
-            activeclassname="active"
-          >
-            Admin Dashboard
-          </NavLink>
-          {!isLoggedIn && (
+          {isLoggedIn ? (
             <>
-              <NavLink className="navLink" to="/login" activeclassname="active">
-                Login
+              <NavLink
+                className="navLink"
+                to="/admin-dashboard"
+                activeclassname="active"
+              >
+                Admin Dashboard
               </NavLink>
-            </>
-          )}
-          {isLoggedIn && (
-            <>
               <NavLink
                 className="navLink"
                 onClick={async () => {
@@ -42,6 +35,10 @@ export default function Navbar() {
                 Logout
               </NavLink>
             </>
+          ) : (
+            <NavLink className="navLink" to="/login" activeclassname="active">
+              Login
+            </NavLink>
           )}
         </div>
       </div>
