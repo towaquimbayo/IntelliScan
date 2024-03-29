@@ -180,10 +180,13 @@ export default function Home() {
         setFieldErrors({});
         setLoading(false);
       } else {
-        // Handle error case
-        const res = await response.json();
-        setFieldErrors({ uploadFile: res.errMsg });
-        console.error("File upload failed", res);
+        const data = await response.json();
+        console.error("File upload failed", data);
+        setFieldErrors({
+          uploadFile:
+            data.message ||
+            "An unexpected error occurred. Please try again later.",
+        });
       }
     } catch (error) {
       console.error("Error during file upload:", error);
