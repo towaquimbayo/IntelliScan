@@ -17,26 +17,26 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-type RequestBody = {
-    name: string;
-    email: string;
-    password: string
-    admin: boolean;
-}
 export const registerUser = async (req: Request, res: Response) => {
-    const { name, email, password, admin }: RequestBody = req.body;
+    type RequestBody = {
+        name: string;
+        email: string;
+        password: string
+        admin: boolean;
+    }
 
-    // hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    // store the user in db
-    const user = new User({
-        name: name,
-        email: email,
-        password: hashedPassword,
-        admin: admin ?? false
-    });
+    const { name, email, password, admin }: RequestBody = req.body;
     try {
+        // hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        // store the user in db
+        const user = new User({
+            name: name,
+            email: email,
+            password: hashedPassword,
+            admin: admin ?? false
+        });
         await user.save();
         res.send({ user: user._id })
     } catch (err) {
@@ -46,7 +46,13 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     const user = await User.findById(req.userId);
-    if (!user) return res.status(400).send('User not found');
+    if (!user) {
+        console.error("User not found for the provided email. Please try again.");
+        res.status(400).send({
+            message: "User not found for the provided email. Please try again.",
+        });
+        return;
+    }
 
     // Create and assign a JWT
     const token = jwt.sign({ id: req.userId }, process.env.JWT_SECRET, {
@@ -90,9 +96,17 @@ function sendMail(email: string, subject: string, mailContent: string) {
 }
 
 export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
+    type RequestBody = { email: string }
     const { email }: RequestBody = req.body;
 
     try {
+        // Delete any existing OTP for the email
+        const otpExists = await Otp.findOne({ email: email });
+        if (otpExists) {
+            await Otp.deleteOne({ email: email });
+        }
+
+        // Generate a new OTP
         const otp = Math.floor(1000 + Math.random() * 9000); // 4 digit OTP
         console.log("OTP: ", otp)
         const otpSchema = new Otp({
@@ -120,5 +134,34 @@ export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
     } catch (err) {
         console.error("Error occurred during sending reset password email: ", err);
         res.status(400).send(err);
+    }
+}
+
+export const updatePassword = async (req: Request, res: Response) => {
+    type RequestBody = {
+        email: string;
+        newPassword: string;
+    }
+    const { email, newPassword }: RequestBody = req.body;
+
+    try {
+        // checking to see if the user is already registered
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            res.status(400).send({
+                message: "User not found for the provided email. Please try again.",
+            });
+            return;
+        }
+
+        // updating the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        await user.save();
+        res.status(200).send("Password updated successfully!");
+    } catch (err) {
+        console.error("Error occurred while updating password: ", err);
+        res.status(500).send("Internal Server Error");
     }
 }

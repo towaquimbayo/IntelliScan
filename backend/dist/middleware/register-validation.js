@@ -31,7 +31,9 @@ const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0,
     try {
         const emailExist = yield User_1.default.findOne({ email: emailFromBody });
         if (emailExist) {
-            res.status(400).send('Email already exists. Please try again.');
+            res.status(400).send({
+                message: 'An account with this email already exists. Please try again.',
+            });
             return;
         }
         next();

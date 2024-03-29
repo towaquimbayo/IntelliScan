@@ -30,12 +30,16 @@ const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const user = yield User_1.default.findOne({ email: emailFromBody });
         if (!user) {
-            res.status(400).send('User not found for the provided email. Please try again.');
+            res.status(400).send({
+                message: 'User not found for the provided email. Please try again.'
+            });
             return;
         }
         const validPass = yield bcryptjs_1.default.compare(passwordFromBody, user.password);
         if (!validPass) {
-            res.status(400).send('Invalid email or password. Please try again.');
+            res.status(400).send({
+                message: 'Invalid email or password. Please try again.'
+            });
             return;
         }
         req.userId = user._id;

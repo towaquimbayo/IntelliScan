@@ -12,50 +12,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.otpValidation = void 0;
+exports.passwordValidation = void 0;
 const zod_1 = require("zod");
 const User_1 = __importDefault(require("../models/User"));
-const Otp_1 = __importDefault(require("../models/Otp"));
-const loginSchema = zod_1.z
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const userSchema = zod_1.z
     .object({
     email: zod_1.z.string().min(6).email(),
-    userOtp: zod_1.z.string().min(4),
+    newPassword: zod_1.z.string().min(6),
 })
     .strict();
-const otpValidation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const parsed = loginSchema.safeParse(req.body);
+const passwordValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const parsed = userSchema.safeParse(req.body);
     if (!parsed.success) {
         res.status(400).send(parsed.error);
         return;
     }
-    const { email: email, userOtp: userOtp } = req.body;
+    const { email: email, newPassword: newPassword } = req.body;
     try {
         const user = yield User_1.default.findOne({ email: email });
         if (!user) {
-            res
-                .status(400)
-                .send({
+            res.status(400).send({
                 message: "User not found for the provided email. Please try again.",
             });
             return;
         }
-        const otp = yield Otp_1.default.findOne({ email: email });
-        if (!otp || !otp.otpCode) {
-            console.error("No code found for this email.", email, otp);
-            res.status(400).send({ message: "No code found for this email." });
+        if (yield bcryptjs_1.default.compare(newPassword, user.password)) {
+            res.status(400).send({
+                message: "New password cannot be the same as the old password. Please try again.",
+            });
             return;
         }
-        else if (otp.otpCode !== Number(userOtp)) {
-            console.error("Invalid code. Please try again.", userOtp, otp.otpCode);
-            res.status(400).send({ message: "Invalid code. Please try again." });
-            return;
-        }
-        yield Otp_1.default.deleteOne({ email: email });
-        res.status(200).send({ message: "OTP verified successfully." });
+        next();
     }
     catch (err) {
-        console.error("Error occurred while verifying OTP: ", err);
-        res.status(500).send({ message: "Internal Server Error" });
+        console.error("Error occurred while validating user and password: ", err);
+        res.status(500).send("Internal Server Error");
     }
 });
-exports.otpValidation = otpValidation;
+exports.passwordValidation = passwordValidation;

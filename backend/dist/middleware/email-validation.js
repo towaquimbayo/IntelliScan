@@ -32,7 +32,9 @@ const emailValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         if (!user) {
             res
                 .status(400)
-                .send({ message: "Invalid email provided. Please try again." });
+                .send({
+                message: "User not found for the provided email. Please try again.",
+            });
             return;
         }
         next();

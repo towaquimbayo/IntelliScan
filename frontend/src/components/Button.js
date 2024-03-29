@@ -5,9 +5,10 @@ export default function Button({
   title,
   onClick,
   loading,
-  full = false,
   text,
   children,
+  full = false,
+  disabled = false,
   customStyle,
 }) {
   return (
@@ -15,7 +16,9 @@ export default function Button({
       type={type}
       title={title}
       onClick={onClick}
-      className={`btnPrimary` + (full ? " full" : "")}
+      className={
+        `btnPrimary` + (full ? " full" : "") + (disabled ? " disabled" : "")
+      }
       style={{ ...customStyle }}
     >
       {loading ? (
