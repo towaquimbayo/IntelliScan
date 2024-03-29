@@ -9,7 +9,10 @@ import "../css/home.css";
 
 export default function Home() {
   const navigate = useNavigate();
+
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const apiCalls = useSelector((state) => state.user.apiCalls);
+  const username = useSelector((state) => state.user.username);
 
   const [uploadFile, setUploadFile] = useState(null);
   const [isFileDragEnter, setIsFileDragEnter] = useState(false);
@@ -17,11 +20,75 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("Please summarize the document.");
   const [modelAPIResponse, setModelAPIResponse] = useState("");
-  const apiCalls = 20; // @TODO: Hardcoded
+  const apiConsumption = {
+    safe: {
+      color: "#0dc08a",
+      status: "Safe Zone!",
+      limit: 10,
+    },
+    warning: {
+      color: "#e4cf14",
+      status: "Warning Zone!",
+      limit: 15,
+    },
+    danger: {
+      color: "#e22315",
+      status: "Danger Zone!",
+      limit: 20,
+    },
+  };
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
   }, [isLoggedIn, navigate]);
+
+  function getConsumptionRate() {
+    const rate = (apiCalls / 20) * 100;
+    return rate > 100 ? 100 : rate;
+  }
+
+  function getConsumptionColor() {
+    if (apiCalls < 10) return apiConsumption.safe.color;
+    if (apiCalls < 15) return apiConsumption.warning.color;
+    return apiConsumption.danger.color;
+  }
+
+  function getConsumptionStatus() {
+    if (apiCalls < 10) {
+      return (
+        <p>
+          Your API consumption status is in the{" "}
+          <span className="status" style={{ color: apiConsumption.safe.color }}>
+            {apiConsumption.safe.status}
+          </span>{" "}
+          You have <b>{20 - apiCalls}</b> API calls remaining.
+        </p>
+      );
+    }
+    if (apiCalls < 15) {
+      return (
+        <p>
+          Your API consumption status is in the{" "}
+          <span
+            className="status"
+            style={{ color: apiConsumption.warning.color }}
+          >
+            {apiConsumption.warning.status}
+          </span>{" "}
+          You have <b>{20 - apiCalls}</b> API calls remaining.
+        </p>
+      );
+    }
+    return (
+      <p>
+        Your API consumption status is in the{" "}
+        <span className="status" style={{ color: apiConsumption.danger.color }}>
+          {apiConsumption.danger.status}
+        </span>{" "}
+        You have exceeded the API call limit.
+      </p>
+    );
+  }
 
   function handleFileDragEnter(e) {
     e.preventDefault();
@@ -128,6 +195,28 @@ export default function Home() {
   return (
     <Layout isLandingPage>
       <div id="uploadFileContainer">
+        <div className="cardsGroup">
+          <div className="cardContainer">
+            <span>Welcome back!</span>
+            <h1>{username}</h1>
+            {getConsumptionStatus()}
+          </div>
+
+          <div className="cardContainer">
+            <span>Your API Consumption</span>
+            <h1>{apiCalls} / 20</h1>
+            <div className="progressBar">
+              <div
+                className="progressFill"
+                style={{
+                  width: `${getConsumptionRate()}%`,
+                  backgroundColor: getConsumptionColor(),
+                }}
+              ></div>
+            </div>
+          </div>
+        </div>
+
         {uploadFile ? (
           <>
             {fieldErrors?.prompt && (
@@ -135,7 +224,6 @@ export default function Home() {
             )}
             <div className="fileSubmitContainer">
               <h2>Ready to Submit Prompt?</h2>
-              <span>You have {apiCalls} API calls left.</span>
             </div>
             <div className="fileInfoContainer">
               <div className="instructions">

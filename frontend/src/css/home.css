@@ -1,7 +1,67 @@
 #uploadFileContainer {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
-  padding: 3rem 0;
+  padding-bottom: 3rem;
+}
+
+#uploadFileContainer .cardsGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+#uploadFileContainer .cardsGroup .cardContainer {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #ececec;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+#uploadFileContainer .cardsGroup .cardContainer span {
+  font-size: 0.9rem;
+  color: #585858;
+  margin-bottom: 0.25rem;
+}
+
+#uploadFileContainer .cardsGroup p,
+#uploadFileContainer .cardsGroup p .status {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-bottom: 0;
+}
+
+#uploadFileContainer .cardsGroup .cardContainer h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#uploadFileContainer .cardsGroup .cardContainer .progressBar {
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+}
+
+#uploadFileContainer .cardsGroup .cardContainer .progressBar .progressFill {
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  animation: progress 1s linear;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
 }
 
 #uploadFileContainer .dragdropContainer {
@@ -215,7 +275,6 @@
   font-weight: 400;
 }
 
-
 @media screen and (max-width: 992px) {
   #uploadFileContainer {
     max-width: 100%;
@@ -226,11 +285,26 @@
   #uploadFileContainer {
     max-width: 100%;
   }
+  #uploadFileContainer .cardsGroup {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 @media screen and (max-width: 576px) {
-  #uploadFileContainer {
-    padding-top: 0;
+  #uploadFileContainer .cardsGroup .cardContainer {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  #uploadFileContainer .cardsGroup .cardContainer h1 {
+    font-size: 1.5rem;
+  }
+  #uploadFileContainer .cardsGroup .cardContainer span {
+    font-size: 0.8rem;
+  }
+  #uploadFileContainer .cardsGroup p,
+  #uploadFileContainer .cardsGroup p .status {
+    font-size: 1rem;
   }
   #uploadFileContainer .fileInfoContainer {
     flex-direction: column;

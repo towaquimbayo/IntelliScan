@@ -53,6 +53,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         "message": "User logged in successfully!",
         "apiCalls": user.api_calls,
         "isAdmin": user.admin,
+        "name": user.name,
     });
 });
 exports.loginUser = loginUser;

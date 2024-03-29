@@ -32,7 +32,7 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(setUser(true, data.apiCalls, data.isAdmin));
+        dispatch(setUser(true, data.apiCalls, data.isAdmin, data.name));
         setLoading(false);
         navigate("/");
       } else {
