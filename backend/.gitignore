@@ -13,4 +13,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # uploads
-/src/uploads
+/uploads
