@@ -55,6 +55,7 @@ export default function ForgotPassword() {
     try {
       const response = await fetch("/api/user/forgot-password", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
@@ -65,7 +66,7 @@ export default function ForgotPassword() {
       } else {
         const data = await response.json();
         console.error("Error sending email:", data);
-        setErrMsg(data.message);
+        setErrMsg(data.message || "An unexpected error occurred. Please try again later.");
       }
     } catch (e) {
       console.error("Error sending email:", e);
