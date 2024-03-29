@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
+import { config } from "../config";
 import "../css/auth.css";
 
 export default function Signup() {
   const navigate = useNavigate();
+
+  const endpoint = config.url;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +19,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/user/register", {
+      const response = await fetch(endpoint + "/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

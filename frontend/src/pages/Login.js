@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
+import { config } from "../config";
 import "../css/auth.css";
 
 export default function Login() {
@@ -11,6 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const endpoint = config.url;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch(endpoint + "/api/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

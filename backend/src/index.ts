@@ -11,6 +11,8 @@ dotenv.config();
 import cors from "cors";
 
 const port = process.env.PORT || 8080;
+const clientProdUrl = process.env.CLIENT_PROD_URL || '';
+const clientDevUrl = process.env.CLIENT_DEV_URL || '';
 
 // middleware
 app.use(express.json());
@@ -22,10 +24,12 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [clientProdUrl, clientDevUrl],
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/user", authRoute);
@@ -36,10 +40,11 @@ app.use(errorHandlerMiddleware);
 
 const start = async () => {
   try {
+    console.info("Server running on", process.env.NODE_ENV);
     await connectDB(process.env.MONGO_URI);
     app.listen(port, () => console.log(`Server listening on port ${port}...`));
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

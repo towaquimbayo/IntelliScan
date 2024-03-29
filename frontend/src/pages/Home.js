@@ -5,6 +5,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import Layout from "../components/Layout";
 import AlertMessage from "../components/AlertMessage";
 import Button from "../components/Button";
+import { config } from "../config";
 import "../css/home.css";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
   const apiCalls = useSelector((state) => state.user.apiCalls);
   const username = useSelector((state) => state.user.username);
 
+  const endpoint = config.url;
   const [uploadFile, setUploadFile] = useState(null);
   const [isFileDragEnter, setIsFileDragEnter] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -167,7 +169,7 @@ export default function Home() {
     formData.append("prompt", promptFormatted);
 
     try {
-      const response = await fetch("/api/file/prompt", {
+      const response = await fetch(endpoint + "/api/file/prompt", {
         method: "POST",
         body: formData,
       });

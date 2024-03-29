@@ -24,6 +24,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const cors_1 = __importDefault(require("cors"));
 const port = process.env.PORT || 8080;
+const clientProdUrl = process.env.CLIENT_PROD_URL || '';
+const clientDevUrl = process.env.CLIENT_DEV_URL || '';
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((req, res, next) => {
@@ -34,7 +36,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
+    origin: [clientProdUrl, clientDevUrl],
     credentials: true,
 }));
 app.use("/api/user", auth_1.default);
@@ -44,11 +46,12 @@ app.use(not_found_1.notFound);
 app.use(error_handler_1.errorHandlerMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.info("Server running on", process.env.NODE_ENV);
         yield (0, connect_1.connectDB)(process.env.MONGO_URI);
         app.listen(port, () => console.log(`Server listening on port ${port}...`));
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
     }
 });
 start();
