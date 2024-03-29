@@ -31,6 +31,9 @@ export const registerUser = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(400).send('User not found');
+
     // Create and assign a JWT
     const token = jwt.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
@@ -42,7 +45,8 @@ export const loginUser = async (req: Request, res: Response) => {
         maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
     });
     res.send({
-        "status": "success",
+        "status": 200,
         "message": "User logged in successfully!",
+        "apiCalls": user.api_calls,
     });
 }

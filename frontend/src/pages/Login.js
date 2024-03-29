@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setUserLoggedIn } from "../redux/actions/UserAction";
+import { setUser } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
 import "../css/auth.css";
@@ -20,14 +20,13 @@ export default function Login() {
     try {
       const response = await fetch("/api/user/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
-        dispatch(setUserLoggedIn(true));
+        const data = await response.json();
+        dispatch(setUser(true, data.apiCalls));
         setLoading(false);
         navigate("/");
       } else {

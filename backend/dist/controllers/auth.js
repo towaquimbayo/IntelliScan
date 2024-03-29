@@ -36,6 +36,9 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.registerUser = registerUser;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield User_1.default.findById(req.userId);
+    if (!user)
+        return res.status(400).send('User not found');
     const token = jsonwebtoken_1.default.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
     });
@@ -46,8 +49,10 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         maxAge: 1000 * 60 * 60 * 24 * 30
     });
     res.send({
-        "status": "success",
+        "status": 200,
         "message": "User logged in successfully!",
+        "apiCalls": user.api_calls,
+        "isAdmin": user.admin,
     });
 });
 exports.loginUser = loginUser;

@@ -1,2 +1,2 @@
-export const SET_USER_LOGGED_IN = "SET_USER_LOGGED_IN";
+export const SET_USER = "SET_USER";
 export const CLEAR_SESSION = "CLEAR_SESSION";
