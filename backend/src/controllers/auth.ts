@@ -91,8 +91,6 @@ function sendMail(email: string, subject: string, mailContent: string) {
 
 export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
     const { email }: RequestBody = req.body;
-    console.log("Nodemailer User: ", process.env.NODEMAIL_USER);
-    console.log("Nodemailer Pass: ", process.env.NODEMAIL_PASS);
 
     try {
         const otp = Math.floor(1000 + Math.random() * 9000); // 4 digit OTP

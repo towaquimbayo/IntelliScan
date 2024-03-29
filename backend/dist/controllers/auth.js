@@ -92,8 +92,6 @@ function sendMail(email, subject, mailContent) {
 }
 const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body;
-    console.log("Nodemailer User: ", process.env.NODEMAIL_USER);
-    console.log("Nodemailer Pass: ", process.env.NODEMAIL_PASS);
     try {
         const otp = Math.floor(1000 + Math.random() * 9000);
         console.log("OTP: ", otp);

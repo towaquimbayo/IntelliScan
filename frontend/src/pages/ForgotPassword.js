@@ -56,17 +56,22 @@ export default function ForgotPassword() {
       const response = await fetch("/api/user/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.toLowerCase() }),
       });
 
       if (response.ok) {
         document.getElementById("forgotPasswordForm").reset(); // Clear form
-        setInfoMsg("An email has been sent. Please check your inbox.");
+        setInfoMsg(
+          "An email has been sent. Please check your inbox or spam folder for the code."
+        );
         setFormStep(steps.verifyOTP);
       } else {
         const data = await response.json();
         console.error("Error sending email:", data);
-        setErrMsg(data.message || "An unexpected error occurred. Please try again later.");
+        setErrMsg(
+          data.message ||
+            "An unexpected error occurred. Please try again later."
+        );
       }
     } catch (e) {
       console.error("Error sending email:", e);
@@ -96,7 +101,8 @@ export default function ForgotPassword() {
     try {
       const response = await fetch("/api/user/verify-otp", {
         method: "POST",
-        body: JSON.stringify({ email, userOtp: otp }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.toLowerCase(), userOtp: otp }),
       });
 
       if (response.ok) {
@@ -106,7 +112,10 @@ export default function ForgotPassword() {
       } else {
         const data = await response.json();
         console.error("Error validating OTP:", data);
-        setErrMsg(data.message);
+        setErrMsg(
+          data.message ||
+            "An unexpected error occurred. Please try again later."
+        );
       }
     } catch (e) {
       console.error("Error validating OTP:", e);
@@ -136,7 +145,8 @@ export default function ForgotPassword() {
     try {
       const response = await fetch("/api/user/reset-password", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.toLowerCase(), password }),
       });
 
       if (response.ok) {
@@ -179,7 +189,10 @@ export default function ForgotPassword() {
       return (
         <div className="pageHeader">
           <h1>Update Password</h1>
-          <p>Almost done! Please enter a new password for your account.</p>
+          <p>
+            Almost done! Please enter a new password between 8 to 50 characters
+            for your account.
+          </p>
         </div>
       );
     }

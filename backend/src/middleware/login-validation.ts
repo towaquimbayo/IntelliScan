@@ -17,24 +17,30 @@ const loginSchema = z.object({
 export const loginValidation = async (req: Request, res: Response, next: NextFunction) => {
     // validating using zod
     const parsed = loginSchema.safeParse(req.body);
-    if (!parsed.success)
+    if (!parsed.success) {
         res.status(400).send(parsed.error)
-    else {
-        const { email: emailFromBody, password: passwordFromBody }: RequestBody = req.body;
-        // checking if the email exists
-        const user = await User.findOne({ email: emailFromBody })
-        if (user) {
-            // checking if the password is correct
-            const validPass = await bcrypt.compare(passwordFromBody, user.password)
-            if (validPass) {
-                req.userId = user._id;
-                next();
-            }
-            else
-                res.status(400).send('Invalid Email or Password!!!')
-        }
-        else
-            res.status(400).send('Invalid Email or Password!!!')
+        return;
     }
 
+    const { email: emailFromBody, password: passwordFromBody }: RequestBody = req.body;
+    try {
+        // checking if the email exists
+        const user = await User.findOne({ email: emailFromBody })
+        if (!user) {
+            res.status(400).send('User not found for the provided email. Please try again.')
+            return;
+        }
+
+        // checking if the password is correct
+        const validPass = await bcrypt.compare(passwordFromBody, user.password)
+        if (!validPass) {
+            res.status(400).send('Invalid email or password. Please try again.')
+            return;
+        }
+        req.userId = user._id;
+        next();
+    } catch (err) {
+        console.error('Error occurred while validating login: ', err)
+        res.status(500).send('Internal Server Error')
+    }
 }

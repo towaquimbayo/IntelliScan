@@ -22,22 +22,28 @@ const loginSchema = zod_1.z.object({
 }).strict();
 const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = loginSchema.safeParse(req.body);
-    if (!parsed.success)
+    if (!parsed.success) {
         res.status(400).send(parsed.error);
-    else {
-        const { email: emailFromBody, password: passwordFromBody } = req.body;
+        return;
+    }
+    const { email: emailFromBody, password: passwordFromBody } = req.body;
+    try {
         const user = yield User_1.default.findOne({ email: emailFromBody });
-        if (user) {
-            const validPass = yield bcryptjs_1.default.compare(passwordFromBody, user.password);
-            if (validPass) {
-                req.userId = user._id;
-                next();
-            }
-            else
-                res.status(400).send('Invalid Email or Password!!!');
+        if (!user) {
+            res.status(400).send('User not found for the provided email. Please try again.');
+            return;
         }
-        else
-            res.status(400).send('Invalid Email or Password!!!');
+        const validPass = yield bcryptjs_1.default.compare(passwordFromBody, user.password);
+        if (!validPass) {
+            res.status(400).send('Invalid email or password. Please try again.');
+            return;
+        }
+        req.userId = user._id;
+        next();
+    }
+    catch (err) {
+        console.error('Error occurred while validating login: ', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 exports.loginValidation = loginValidation;

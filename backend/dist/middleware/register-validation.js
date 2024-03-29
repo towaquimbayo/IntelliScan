@@ -23,15 +23,22 @@ const registerSchema = zod_1.z.object({
 }).strict();
 const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = registerSchema.safeParse(req.body);
-    if (!parsed.success)
+    if (!parsed.success) {
         res.status(400).send(parsed.error);
-    else {
-        const { email: emailFromBody } = req.body;
+        return;
+    }
+    const { email: emailFromBody } = req.body;
+    try {
         const emailExist = yield User_1.default.findOne({ email: emailFromBody });
-        if (emailExist)
-            res.status(400).send('Email already exists!!!');
-        else
-            next();
+        if (emailExist) {
+            res.status(400).send('Email already exists. Please try again.');
+            return;
+        }
+        next();
+    }
+    catch (err) {
+        console.error('Error occurred while validating registration: ', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 exports.registerValidation = registerValidation;
