@@ -58,10 +58,12 @@ export default function Home() {
       return (
         <p>
           Your API consumption status is in the{" "}
-          <span className="status" style={{ color: apiConsumption.safe.color }}>
+          <b style={{ color: apiConsumption.safe.color }}>
             {apiConsumption.safe.status}
-          </span>{" "}
-          You have <b>{20 - apiCalls}</b> API calls remaining.
+          </b>{" "}
+          You have{" "}
+          <b style={{ color: apiConsumption.safe.color }}>{20 - apiCalls}</b>{" "}
+          API calls remaining.
         </p>
       );
     }
@@ -69,22 +71,21 @@ export default function Home() {
       return (
         <p>
           Your API consumption status is in the{" "}
-          <span
-            className="status"
-            style={{ color: apiConsumption.warning.color }}
-          >
+          <b style={{ color: apiConsumption.warning.color }}>
             {apiConsumption.warning.status}
-          </span>{" "}
-          You have <b>{20 - apiCalls}</b> API calls remaining.
+          </b>{" "}
+          You have{" "}
+          <b style={{ color: apiConsumption.warning.color }}>{20 - apiCalls}</b>{" "}
+          API calls remaining.
         </p>
       );
     }
     return (
       <p>
         Your API consumption status is in the{" "}
-        <span className="status" style={{ color: apiConsumption.danger.color }}>
+        <b style={{ color: apiConsumption.danger.color }}>
           {apiConsumption.danger.status}
-        </span>{" "}
+        </b>{" "}
         You have exceeded the API call limit.
       </p>
     );
