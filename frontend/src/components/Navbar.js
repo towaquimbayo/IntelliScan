@@ -4,7 +4,9 @@ import { clearSession } from "../redux/actions/UserAction";
 
 export default function Navbar() {
   const dispatch = useDispatch();
+
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isAdmin = useSelector((state) => state.user.isAdmin);
 
   return (
     <nav className="navbar">
@@ -15,26 +17,22 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="navLinksContainer">
+          {isAdmin && (
+            <NavLink
+              className="navLink"
+              to="/admin-dashboard"
+              activeclassname="active"
+            >
+              Admin Dashboard
+            </NavLink>
+          )}
           {isLoggedIn ? (
-            <>
-              <NavLink
-                className="navLink"
-                to="/admin-dashboard"
-                activeclassname="active"
-              >
-                Admin Dashboard
-              </NavLink>
-              <NavLink
-                className="navLink"
-                onClick={async () => {
-                  await fetch("/api/logout");
-                  dispatch(clearSession());
-                }}
-                activeclassname="active"
-              >
-                Logout
-              </NavLink>
-            </>
+            <Link
+              className="navLink"
+              onClick={async () => dispatch(clearSession())}
+            >
+              Logout
+            </Link>
           ) : (
             <NavLink className="navLink" to="/login" activeclassname="active">
               Login

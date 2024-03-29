@@ -48,5 +48,6 @@ export const loginUser = async (req: Request, res: Response) => {
         "status": 200,
         "message": "User logged in successfully!",
         "apiCalls": user.api_calls,
+        "isAdmin": user.admin,
     });
 }

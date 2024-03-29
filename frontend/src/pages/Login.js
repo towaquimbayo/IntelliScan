@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
@@ -9,9 +9,15 @@ import "../css/auth.css";
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/");
+  }, [isLoggedIn, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,7 +32,7 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(setUser(true, data.apiCalls));
+        dispatch(setUser(true, data.apiCalls, data.isAdmin));
         setLoading(false);
         navigate("/");
       } else {

@@ -5,11 +5,14 @@ import Layout from "../components/Layout";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isAdmin = useSelector((state) => state.user.isAdmin);
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
-  }, [isLoggedIn, navigate]);
+    if (!isAdmin) navigate("/");
+  }, [isLoggedIn, isAdmin, navigate]);
 
   return (
     <Layout title="Admin Dashboard">
