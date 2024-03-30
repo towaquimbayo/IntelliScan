@@ -27,14 +27,18 @@ export const loginValidation = async (req: Request, res: Response, next: NextFun
         // checking if the email exists
         const user = await User.findOne({ email: emailFromBody })
         if (!user) {
-            res.status(400).send('User not found for the provided email. Please try again.')
+            res.status(400).send({
+                message: 'User not found for the provided email. Please try again.'
+            });
             return;
         }
 
         // checking if the password is correct
         const validPass = await bcrypt.compare(passwordFromBody, user.password)
         if (!validPass) {
-            res.status(400).send('Invalid email or password. Please try again.')
+            res.status(400).send({
+                message: 'Invalid email or password. Please try again.'
+            });
             return;
         }
         req.userId = user._id;

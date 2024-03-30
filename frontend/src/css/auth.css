@@ -100,18 +100,18 @@ input[type="password"] {
   border-radius: 0.5rem;
 }
 
-.auth-container .auth-form p {
+.auth-container .auth-form form p {
   text-align: center;
   margin-top: 20px;
 }
 
-.auth-container .auth-form p a {
+.auth-container .auth-form form p a {
   color: var(--primaryColor);
   text-decoration: none;
   font-weight: bold;
 }
 
-.auth-container .auth-form p a:hover {
+.auth-container .auth-form form p a:hover {
   text-decoration: underline;
 }
 

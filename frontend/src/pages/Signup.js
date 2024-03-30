@@ -2,25 +2,35 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
+import { config } from "../config";
+import AlertMessage from "../components/AlertMessage";
 import "../css/auth.css";
 
 export default function Signup() {
   const navigate = useNavigate();
+
+  const endpoint = config.url;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrMsg("");
+
+    if (!name || !email || !password) {
+      setErrMsg("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch("/api/user/register", {
+      const response = await fetch(endpoint + "/api/user/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
@@ -28,11 +38,13 @@ export default function Signup() {
         setLoading(false);
         navigate("/login");
       } else {
-        // Handle error case
-        console.error("Signup failed");
+        const data = await response.json();
+        console.error("Signup failed:", data);
+        setErrMsg("An unexpected error occurred. Please try again later.");
       }
     } catch (error) {
       console.error("Error during signup:", error);
+      setErrMsg("An unexpected error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -81,6 +93,7 @@ export default function Signup() {
         </div>
         <div className="auth-form">
           <h1>Get Started</h1>
+          {errMsg && <AlertMessage msg={errMsg} type="error" />}
           <form onSubmit={handleSignup}>
             <div className="form-group">
               <label htmlFor="name">Name</label>
@@ -89,7 +102,10 @@ export default function Signup() {
                 id="name"
                 name="name"
                 placeholder="John Doe"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setErrMsg("");
+                }}
               />
             </div>
             <div className="form-group">
@@ -99,7 +115,10 @@ export default function Signup() {
                 id="email"
                 name="email"
                 placeholder="example@email.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrMsg("");
+                }}
               />
             </div>
             <div className="form-group">
@@ -108,7 +127,10 @@ export default function Signup() {
                 type="password"
                 id="password"
                 name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrMsg("");
+                }}
               />
             </div>
             <Button

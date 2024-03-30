@@ -4,16 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
+import { config } from "../config";
 import "../css/auth.css";
+import AlertMessage from "../components/AlertMessage";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const endpoint = config.url;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     if (isLoggedIn) navigate("/");
@@ -22,9 +26,16 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrMsg("");
+
+    if (!email || !password) {
+      setErrMsg("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch(endpoint + "/api/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -36,11 +47,16 @@ export default function Login() {
         setLoading(false);
         navigate("/");
       } else {
-        // Handle error case
-        console.error("Login failed");
+        const data = await response.json();
+        console.error("Login failed:", data);
+        setErrMsg(
+          data.message ||
+            "An unexpected error occurred. Please try again later."
+        );
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setErrMsg("An unexpected error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -89,6 +105,7 @@ export default function Login() {
         </div>
         <div className="auth-form">
           <h1>Welcome Back</h1>
+          {errMsg && <AlertMessage msg={errMsg} type="error" />}
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -97,7 +114,10 @@ export default function Login() {
                 id="email"
                 name="email"
                 placeholder="example@email.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrMsg("");
+                }}
               />
             </div>
             <div className="form-group">
@@ -106,7 +126,10 @@ export default function Login() {
                 type="password"
                 id="password"
                 name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrMsg("");
+                }}
               />
             </div>
             <Link to="/forgot-password" className="linkAlt">

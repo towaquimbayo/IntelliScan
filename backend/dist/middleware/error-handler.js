@@ -12,6 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandlerMiddleware = void 0;
 const errorHandlerMiddleware = (err, req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
-    return res.status(500).json({ msg: 'Something went wrong, please try again' });
+    return res.status(500).send({ message: 'Something went wrong, please try again.' });
 });
 exports.errorHandlerMiddleware = errorHandlerMiddleware;

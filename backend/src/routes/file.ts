@@ -7,7 +7,7 @@ import multer from "multer";
 // Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "src/uploads/");
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname.split(" ").join("_"));
@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// const upload = multer({ dest: 'src/uploads/' });
 router.post("/prompt", upload.single("file"), fileValidation, filePrompt);
 
 export default router;

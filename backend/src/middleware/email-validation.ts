@@ -31,7 +31,9 @@ export const emailValidation = async (
     if (!user) {
       res
         .status(400)
-        .send({ message: "Invalid email provided. Please try again." });
+        .send({
+          message: "User not found for the provided email. Please try again.",
+        });
       return;
     }
     next();

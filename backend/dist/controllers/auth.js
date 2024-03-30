@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendForgotPasswordEmail = exports.loginUser = exports.registerUser = void 0;
+exports.updatePassword = exports.sendForgotPasswordEmail = exports.loginUser = exports.registerUser = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const nodemailer_1 = __importDefault(require("nodemailer"));
@@ -30,15 +30,15 @@ const transporter = nodemailer_1.default.createTransport({
 });
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password, admin } = req.body;
-    const salt = yield bcryptjs_1.default.genSalt(10);
-    const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
-    const user = new User_1.default({
-        name: name,
-        email: email,
-        password: hashedPassword,
-        admin: admin !== null && admin !== void 0 ? admin : false
-    });
     try {
+        const salt = yield bcryptjs_1.default.genSalt(10);
+        const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
+        const user = new User_1.default({
+            name: name,
+            email: email,
+            password: hashedPassword,
+            admin: admin !== null && admin !== void 0 ? admin : false
+        });
         yield user.save();
         res.send({ user: user._id });
     }
@@ -49,8 +49,13 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.registerUser = registerUser;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield User_1.default.findById(req.userId);
-    if (!user)
-        return res.status(400).send('User not found');
+    if (!user) {
+        console.error("User not found for the provided email. Please try again.");
+        res.status(400).send({
+            message: "User not found for the provided email. Please try again.",
+        });
+        return;
+    }
     const token = jsonwebtoken_1.default.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
     });
@@ -93,6 +98,10 @@ function sendMail(email, subject, mailContent) {
 const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body;
     try {
+        const otpExists = yield Otp_1.default.findOne({ email: email });
+        if (otpExists) {
+            yield Otp_1.default.deleteOne({ email: email });
+        }
         const otp = Math.floor(1000 + Math.random() * 9000);
         console.log("OTP: ", otp);
         const otpSchema = new Otp_1.default({
@@ -121,3 +130,25 @@ const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.sendForgotPasswordEmail = sendForgotPasswordEmail;
+const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, newPassword } = req.body;
+    try {
+        const user = yield User_1.default.findOne({ email: email });
+        if (!user) {
+            res.status(400).send({
+                message: "User not found for the provided email. Please try again.",
+            });
+            return;
+        }
+        const salt = yield bcryptjs_1.default.genSalt(10);
+        const hashedPassword = yield bcryptjs_1.default.hash(newPassword, salt);
+        user.password = hashedPassword;
+        yield user.save();
+        res.status(200).send("Password updated successfully!");
+    }
+    catch (err) {
+        console.error("Error occurred while updating password: ", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+exports.updatePassword = updatePassword;

@@ -5,11 +5,13 @@ import VerificationInput from "react-verification-input";
 import Layout from "../components/Layout";
 import AlertMessage from "../components/AlertMessage";
 import Button from "../components/Button";
+import { config } from "../config";
 import "../css/forgotPassword.css";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
 
+  const endpoint = config.url;
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const [successMsg, setSuccessMsg] = useState("");
   const [infoMsg, setInfoMsg] = useState("");
@@ -24,6 +26,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
+  const [resetBtnDisabled, setResetBtnDisabled] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) navigate("/");
@@ -53,7 +56,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch("/api/user/forgot-password", {
+      const response = await fetch(endpoint + "/api/user/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.toLowerCase() }),
@@ -99,7 +102,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch("/api/user/verify-otp", {
+      const response = await fetch(endpoint + "/api/user/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.toLowerCase(), userOtp: otp }),
@@ -143,16 +146,20 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch("/api/user/reset-password", {
+      const response = await fetch(endpoint + "/api/user/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.toLowerCase(), password }),
+        body: JSON.stringify({
+          email: email.toLowerCase(),
+          newPassword: password,
+        }),
       });
 
       if (response.ok) {
         setSuccessMsg(
           "Password updated successfully. Redirecting you to the login page..."
         );
+        setResetBtnDisabled(true);
         setTimeout(() => {
           setLoading(false);
           navigate("/login");
@@ -283,6 +290,7 @@ export default function ForgotPassword() {
             title="Update Password"
             text="Update Password"
             loading={loading}
+            disabled={resetBtnDisabled}
             onClick={resetPassword}
             customStyle={{ marginTop: "1rem" }}
           />
