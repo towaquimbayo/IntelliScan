@@ -6,10 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verify = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verify = (req, res, next) => {
-    const auth = req.header('Authorization');
-    if (!auth)
-        return res.status(401).send('Access denied!!!');
-    let token = auth.split(' ')[1];
+    const token = req.cookies['token'];
     if (!token)
         return res.status(401).send('Access denied!!!');
     try {

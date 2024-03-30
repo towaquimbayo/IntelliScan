@@ -9,12 +9,14 @@ import fileRoute from "./routes/file";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const port = process.env.PORT || 8080;
 const clientProdUrl = process.env.CLIENT_PROD_URL || '';
 const clientDevUrl = process.env.CLIENT_DEV_URL || '';
 
 // middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {

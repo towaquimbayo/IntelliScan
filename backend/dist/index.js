@@ -23,9 +23,11 @@ const file_1 = __importDefault(require("./routes/file"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const port = process.env.PORT || 8080;
 const clientProdUrl = process.env.CLIENT_PROD_URL || '';
 const clientDevUrl = process.env.CLIENT_DEV_URL || '';
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((req, res, next) => {
