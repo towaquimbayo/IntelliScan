@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { config } from "../config";
 import Layout from "../components/Layout";
-import { LucideTrash } from "lucide-react";
+import { LucideTrash, LucideSquarePen } from "lucide-react";
 import "../css/admin.css";
 
 export default function AdminDashboard() {
@@ -92,6 +92,12 @@ export default function AdminDashboard() {
                 </td>
                 <td className="date-row">{new Date(user.date).toLocaleDateString()}</td>
                 <td className="action">
+                  <LucideSquarePen
+                    className="edit-icon"
+                    color="#aaa"
+                    size={20}
+                    onClick={() => navigate(`/admin/users/${user._id}`)}
+                  />
                   {user._id !== loggedInUserId && (
                     <LucideTrash
                       className="delete-icon"

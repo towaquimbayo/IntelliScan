@@ -7,4 +7,5 @@ const protected_1 = require("../controllers/protected");
 router.get('/', verify_token_1.verify, protected_1.sampleController);
 router.get('/users', verify_token_1.verify, protected_1.fetchUsers);
 router.delete('/users/:id', verify_token_1.verify, protected_1.deleteUser);
+router.put('/users/:id', verify_token_1.verify, protected_1.editUser);
 exports.default = router;

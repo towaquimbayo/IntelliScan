@@ -20,7 +20,7 @@ export default function Navbar() {
           {isAdmin && (
             <NavLink
               className="navLink"
-              to="/admin-dashboard"
+              to="/admin"
               activeclassname="active"
             >
               Admin Dashboard

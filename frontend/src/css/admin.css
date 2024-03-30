@@ -76,8 +76,13 @@ h1 {
   border-bottom: 1px solid #ececec;
 }
 
+.edit-icon {
+  cursor: pointer;
+}
+
 .delete-icon {
   cursor: pointer;
+  margin-left: 0.75rem;
   -webkit-transition: all ease-in-out 0.3s;
   -moz-transition: all ease-in-out 0.3s;
   -ms-transition: all ease-in-out 0.3s;
@@ -89,7 +94,7 @@ h1 {
   stroke: var(--errorColor);
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   .date-head, .date-row {
     display: none;
   }
