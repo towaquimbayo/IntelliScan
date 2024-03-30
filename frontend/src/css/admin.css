@@ -86,3 +86,9 @@ h1 {
 .delete-icon:hover {
   stroke: var(--errorColor);
 }
+
+@media screen and (max-width: 576px) {
+  .date-head, .date-row {
+    display: none;
+  }
+}

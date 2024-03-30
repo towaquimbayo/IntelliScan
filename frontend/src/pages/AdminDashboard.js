@@ -66,7 +66,7 @@ export default function AdminDashboard() {
               <th>Name</th>
               <th>API Calls</th>
               <th>Role</th>
-              <th>Created Date</th>
+              <th className="date-head">Created Date</th>
               <th></th>
             </tr>
           </thead>
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
                 <td>
                   <span className="status">{user.admin ? "Admin" : "User"}</span>
                 </td>
-                <td>{new Date(user.date).toLocaleDateString()}</td>
+                <td className="date-row">{new Date(user.date).toLocaleDateString()}</td>
                 <td className="action">
                   {user._id !== loggedInUserId && (
                     <LucideTrash
