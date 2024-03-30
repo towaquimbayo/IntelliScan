@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Stream Test</title>
+</head>
+<body>
+<h2>Language Model Test</h2>
+<label for="promptInput">Enter Prompt:</label>
+<input type="text" id="promptInput" placeholder="Type your prompt here...">
+<button onclick="fetchAndDisplayChunks()">Generate Text</button>
+<div id="output" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 10px; height: 300px; overflow-y: scroll;"></div>
+<div>
+    <h2>Test CORS and API key</h2>
+    <input type="text" id="apiKeyInput" placeholder="Enter API key...">
+    <button onclick="testCORS()">Test CORS</button>
+    <div id="secretResponse"></div>
+</div>
+<script>
+    const base_url = 'http://localhost:8000/api/v1/';
+
+async function fetchAndDisplayChunks() {
+    const prompt = document.getElementById('promptInput').value;
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = '';
+
+    const url = new URL(base_url + 'generate/');
+    url.searchParams.append('prompt', prompt);
+
+    const response = await fetch(url);
+    const reader = response.body.getReader();
+    while (true) {
+        const {done, value} = await reader.read();
+        if (done) break;
+        const chunk = new TextDecoder().decode(value);
+        outputDiv.innerHTML += chunk;
+    }
+}
+
+async function testCORS() {
+    const apiKey = document.getElementById('apiKeyInput').value;
+    const secretResponse = document.getElementById('secretResponse');
+    secretResponse.innerHTML = ''; // Clear previous output
+
+    const url = base_url + 'secret/';
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-API-Key': apiKey
+        }
+    };
+
+    const response = await fetch(url, options);
+    const text = await response.text();
+    secretResponse.innerHTML = text;
+}
+</script>
+</body>
+</html>
