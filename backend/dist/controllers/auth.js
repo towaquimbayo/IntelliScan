@@ -68,6 +68,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send({
         "status": 200,
         "message": "User logged in successfully!",
+        "id": user._id,
         "apiCalls": user.api_calls,
         "isAdmin": user.admin,
         "name": user.name,

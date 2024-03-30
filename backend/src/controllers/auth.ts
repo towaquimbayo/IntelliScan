@@ -67,6 +67,7 @@ export const loginUser = async (req: Request, res: Response) => {
     res.send({
         "status": 200,
         "message": "User logged in successfully!",
+        "id": user._id,
         "apiCalls": user.api_calls,
         "isAdmin": user.admin,
         "name": user.name,
