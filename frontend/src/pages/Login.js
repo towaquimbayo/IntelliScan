@@ -38,6 +38,7 @@ export default function Login() {
       const response = await fetch(endpoint + "/api/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
@@ -51,7 +52,7 @@ export default function Login() {
         console.error("Login failed:", data);
         setErrMsg(
           data.message ||
-            "An unexpected error occurred. Please try again later."
+          "An unexpected error occurred. Please try again later."
         );
       }
     } catch (error) {
