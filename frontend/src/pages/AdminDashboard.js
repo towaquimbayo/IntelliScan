@@ -88,7 +88,7 @@ export default function AdminDashboard() {
                 </td>
                 <td>{user.api_calls}</td>
                 <td>
-                  <span className="status">{user.admin ? "Admin" : "User"}</span>
+                  <span className="role">{user.admin ? "Admin" : "User"}</span>
                 </td>
                 <td className="date-row">{new Date(user.date).toLocaleDateString()}</td>
                 <td className="action">

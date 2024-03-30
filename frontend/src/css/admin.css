@@ -21,7 +21,7 @@ h1 {
 
 .user-table th,
 .user-table td:not(:last-child) {
-  padding: 12px;
+  padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ececec;
 }
@@ -52,26 +52,26 @@ h1 {
   padding: 0.15rem 0.65rem;
   background-color: #ececec;
   color: #888;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 
 .user-email {
   color: #888;
-  font-size: 14px;
+  font-size: 0.85rem;
 }
 
-.status {
+.role {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 1.25rem;
+  font-size: 0.85rem;
   font-weight: 500;
   background-color: rgba(27, 87, 177, 0.1);
   color: var(--primaryColor);
 }
 
 .action {
-  padding: 12px;
+  padding: 0.75rem;
   text-align: right;
   border-bottom: 1px solid #ececec;
 }
