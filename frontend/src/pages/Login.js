@@ -44,7 +44,7 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(setUser(true, data.apiCalls, data.isAdmin, data.name));
+        dispatch(setUser(true, data.id, data.apiCalls, data.isAdmin, data.name));
         setLoading(false);
         navigate("/");
       } else {
