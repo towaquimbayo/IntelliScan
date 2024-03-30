@@ -17,12 +17,12 @@ else:
 
 print("Device: " + device)
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
-model = AutoModelForCausalLM.from_pretrained("./gemma-2b-it",
+model = AutoModelForCausalLM.from_pretrained("../accelerated-gemma-2b-it",
                                              torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
                                              device_map="auto",
                                              quantization_config=quantization_config,
                                              attn_implementation="flash_attention_2")
-tokenizer = AutoTokenizer.from_pretrained("./gemma-2b-it")
+tokenizer = AutoTokenizer.from_pretrained("../accelerated-gemma-2b-it")
 
 model_load_time = time.time()
 gc.collect()
@@ -43,8 +43,9 @@ model_inputs = encodeds.to(device)
 # model.to(device)
 
 generated_ids = model.generate(model_inputs, max_new_tokens=2048, do_sample=True)
-decoded = tokenizer.batch_decode(generated_ids)
-print(decoded[0])
+
+decoded = tokenizer.batch_decode(generated_ids[:, model_inputs.shape[1]:], skip_special_tokens=True)[0]
+print(decoded)
 gc.collect()
 torch.cuda.empty_cache()
 
@@ -65,8 +66,8 @@ model_inputs = encodeds.to(device)
 # model.to(device)
 
 generated_ids = model.generate(model_inputs, max_new_tokens=2048, do_sample=True)
-decoded = tokenizer.batch_decode(generated_ids)
-print(decoded[0])
+decoded = tokenizer.batch_decode(generated_ids[:, model_inputs.shape[1]:], skip_special_tokens=True)[0]
+print(decoded)
 gc.collect()
 torch.cuda.empty_cache()
 

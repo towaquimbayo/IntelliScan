@@ -1,7 +1,8 @@
 import time
 import gc
-import fitz
+from PyPDF2 import PdfReader
 import torch
+import re
 
 from transformers import pipeline, Conversation, BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer
 
@@ -10,14 +11,17 @@ start_time = time.time()
 
 def read_pdf_and_extract_text(pdf_path):
     text = ''
-    with fitz.open(pdf_path) as doc:
-        for page in doc:
-            text += page.get_text()
-    return text
+    reader = PdfReader(pdf_path)
+    for page in reader.pages:
+        text += page.extract_text() + '\n'
+    return re.sub(' +', ' ', text)
 
 
-pdf_path = './testDoc.pdf'
+pdf_path = './testDoc2.pdf'
 pdf_text = read_pdf_and_extract_text(pdf_path)
+print("PDF text length:", len(pdf_text))
+short_pdf_text = pdf_text[:6000]
+pdf_text = short_pdf_text
 
 pdf_read_time = time.time()
 print("PDF read time:", round(pdf_read_time - start_time, 2), "seconds")
@@ -66,7 +70,7 @@ print("\n\t\t***************\n")
 
 
 # Suppose you want to continue the conversation with a new question
-follow_up_question = "What COMP course is this document for?"
+follow_up_question = "What course is this document for?"
 conversation.add_user_input(follow_up_question)
 
 conversational_pipeline([conversation])
@@ -78,6 +82,18 @@ print("\n\t\t***************\n")
 
 # Suppose you want to continue the conversation with a new question
 follow_up_question = "What was this document about again?"
+conversation.add_user_input(follow_up_question)
+
+conversational_pipeline([conversation])
+
+# Print the follow-up response
+print(conversation.generated_responses[-1])
+print("\n\t\t***************\n")
+
+
+# Suppose you want to continue the conversation with a new question
+follow_up_question = "Who are you?"
+conversation.add_user_input(follow_up_question)
 
 conversational_pipeline([conversation])
 
