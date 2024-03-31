@@ -5,6 +5,12 @@ declare global {
             MONGO_URI: string;
             JWT_SECRET: string;
             JWT_LIFETIME: string;
+            NODEMAIL_USER: string;
+            NODEMAIL_PASS: string;
+            CLIENT_DEV_URL: string;
+            CLIENT_PROD_URL: string;
+            API_MODEL_ENDPOINT: string;
+            API_MODEL_KEY: string;
         }
     }
 }
