@@ -61,6 +61,14 @@
   margin-right: 0.5rem;
 }
 
+.auth-container .auth-illustration .review .avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* vertical align to the avatar container */
+  vertical-align: middle;
+}
+
 .auth-container .auth-illustration .review .name {
   font-weight: 500;
 }
