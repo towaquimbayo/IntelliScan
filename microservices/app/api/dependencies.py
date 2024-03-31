@@ -1,6 +1,5 @@
 import json
-
-from fastapi import HTTPException, status, Security
+from fastapi import HTTPException, status, Security, Request
 from fastapi.security import APIKeyHeader, APIKeyQuery
 from dotenv import load_dotenv
 import os
@@ -36,3 +35,23 @@ def check_key(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid or missing API Key",
     )
+
+
+async def check_request_queue(request: Request):
+    if request.app.state.semaphore.locked():
+        if request.app.state.pending_requests_count >= request.app.state.max_pending_requests:
+            raise HTTPException(status_code=503, detail="Server is busy. Please try again later.")
+        request.app.state.pending_requests_count += 1
+        try:
+            # Ensure the request processing waits for the semaphore
+            await request.app.state.semaphore.acquire()
+            yield
+        finally:
+            request.app.state.pending_requests_count -= 1
+            request.app.state.semaphore.release()
+    else:
+        await request.app.state.semaphore.acquire()
+        try:
+            yield
+        finally:
+            request.app.state.semaphore.release()
