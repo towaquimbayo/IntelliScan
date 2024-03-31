@@ -1,17 +1,19 @@
 import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from llm.loader import model_lifespan
 import os
 from dotenv import load_dotenv
 from api.main import api_router
 
-load_dotenv()
 
+app = FastAPI(lifespan=model_lifespan)
+
+load_dotenv()
 DEV_MODE = os.getenv("DEV_MODE") == "True"
 ALLOWED_ORIGINS = json.loads(os.getenv("ALLOWED_ORIGINS"))
 
-
-app = FastAPI()
 if DEV_MODE:
     app.add_middleware(
         CORSMiddleware,

@@ -44,12 +44,9 @@ async def convert(
         pdf_file: UploadFile = File(None),
         base64_content: str = Body(None, embed=True)
 ):
-    print("User reached the convertPDF endpoint")
     if pdf_file and pdf_file.content_type == 'application/pdf':
-        print("Processing PDF file")
         text = await process_upload_file(pdf_file)
     elif base64_content:
-        print("Processing Base64 content")
         text = await process_base64_content(base64_content)
     else:
         raise HTTPException(status_code=400, detail="No valid file found!")
