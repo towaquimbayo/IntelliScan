@@ -1,3 +1,8 @@
+/**
+ * Signup page component.
+ * Allows users to create a new account.
+ */
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -16,6 +21,11 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
+  /**
+   * Handles the signup form submission.
+   * Sends a POST request to the server to create a new user account.
+   * @param {Event} e the form submission event
+   */
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -23,6 +33,26 @@ export default function Signup() {
 
     if (!name || !email || !password) {
       setErrMsg("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
+
+    if (!validateName(name)) {
+      setErrMsg("Name must be at least 3 characters long.");
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrMsg("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setErrMsg(
+        "Password must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter and one number."
+      );
       setLoading(false);
       return;
     }
@@ -49,6 +79,37 @@ export default function Signup() {
       setLoading(false);
     }
   };
+
+  /**
+   * Validates that the email address is in the correct format.
+   * @param {string} email
+   * @returns true if the email is valid, false otherwise
+   */
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  /**
+   * Validates that the password is at least 6 characters long,
+   * contains at least one lowercase letter, one uppercase letter
+   * and one number.
+   * @param {string} password 
+   * @returns true if the password is valid, false otherwise
+   */
+  function validatePassword(password) {
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    return re.test(password);
+  }
+
+  /**
+   * Validates that the name is at least 3 characters long.
+   * @param {string} name 
+   * @returns true if the name is valid, false otherwise
+   */
+  function validateName(name) {
+    return name.length >= 3;
+  }
 
   return (
     <Layout title="Signup">
@@ -78,14 +139,16 @@ export default function Signup() {
               <div className="reviewer">
                 <div className="avatar">
                   <img
-                    src="https://api.dicebear.com/8.x/avataaars/svg?seed=Whiskers"
+                    src="/amir.jpg"
                     alt="avatar"
                     width={35}
+                    height={35}
+                    style={{ borderRadius: "50%", marginBottom: "0rem" }}
                   />
                 </div>
                 <div>
-                  <p className="name">John Doe</p>
-                  <p>Freelancer</p>
+                  <p className="name">Amir Amintabar</p>
+                  <p>Localization Lead at Microsoft</p>
                 </div>
               </div>
             </div>
