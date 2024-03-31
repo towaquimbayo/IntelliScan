@@ -1,3 +1,6 @@
+/**
+ * Main page of the application where the user can upload a PDF file and enter a prompt to summarize the document.
+ */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -44,17 +47,29 @@ export default function Home() {
     if (!isLoggedIn) navigate("/login");
   }, [isLoggedIn, navigate]);
 
+  /**
+   * Get the API consumption rate as a percentage.
+   * @returns the API consumption rate as a percentage
+   */
   function getConsumptionRate() {
     const rate = (apiCalls / 20) * 100;
     return rate > 100 ? 100 : rate;
   }
 
+  /**
+   * Get the color of the API consumption status.
+   * @returns the color of the API consumption status
+   */
   function getConsumptionColor() {
     if (apiCalls < 10) return apiConsumption.safe.color;
     if (apiCalls < 15) return apiConsumption.warning.color;
     return apiConsumption.danger.color;
   }
 
+  /**
+   * Get the API consumption status message.
+   * @returns the API consumption status message
+   */
   function getConsumptionStatus() {
     if (apiCalls < 10) {
       return (
@@ -93,24 +108,40 @@ export default function Home() {
     );
   }
 
+  /**
+   * Handles the drag enter event for file upload.
+   * @param {*} e the drag enter event
+   */
   function handleFileDragEnter(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsFileDragEnter(true);
   }
 
+  /**
+   * Handles the drag leave event for file upload.
+   * @param {*} e the drag leave event
+   */
   function handleFileDragLeave(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsFileDragEnter(false);
   }
 
+  /**
+   * Handles the drag over event for file upload.
+   * @param {*} e the drag over event
+   */
   function handleFileDragOver(e) {
     e.preventDefault();
     e.stopPropagation();
     setIsFileDragEnter(true);
   }
 
+  /**
+   * Handles the drop event for file upload.
+   * @param {*} e the drop event
+   */
   function handleFileDrop(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -119,6 +150,11 @@ export default function Home() {
     handleFileUpload(e.dataTransfer.files[0]);
   }
 
+  /**
+   * Handles the file upload event.
+   * @param {*} file the file to upload
+   * @returns the file upload response
+   */
   function handleFileUpload(file) {
     console.log(file);
     setFieldErrors({});
@@ -140,6 +176,10 @@ export default function Home() {
     setUploadFile(file);
   }
 
+  /**
+   * Submits the file for processing.
+   * @returns the file processing response
+   */
   async function submitFile() {
     setLoading(true);
     setModelAPIResponse("");
@@ -238,7 +278,7 @@ export default function Home() {
                   <h2>{uploadFile.name}</h2>
                 </div>
                 <p>
-                  File uploaded successfully. Please click the button above to
+                  File uploaded successfully. Please enter your prompt below to
                   start processing the file.
                 </p>
               </div>
@@ -261,7 +301,7 @@ export default function Home() {
                 className="promptLabel"
                 title="Enter a prompt about the document"
               >
-                Enter a prompt about the document
+                Enter a prompt about the document:
               </label>
               <textarea
                 id="prompt"

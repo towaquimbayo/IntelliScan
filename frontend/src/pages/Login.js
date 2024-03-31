@@ -1,3 +1,6 @@
+/**
+ * Login page component.
+ */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,6 +26,10 @@ export default function Login() {
     if (isLoggedIn) navigate("/");
   }, [isLoggedIn, navigate]);
 
+  /**
+   * Handles the login form submission.
+   * @param {*} e the form submission event
+   */
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -91,21 +98,23 @@ export default function Login() {
               <div className="reviewer">
                 <div className="avatar">
                   <img
-                    src="https://api.dicebear.com/8.x/avataaars/svg?seed=Whiskers"
+                    src="/amir.jpg"
                     alt="avatar"
                     width={35}
+                    height={35}
+                    style={{ borderRadius: "50%"}}
                   />
                 </div>
                 <div>
-                  <p className="name">John Doe</p>
-                  <p>Freelancer</p>
+                  <p className="name">Amir Amintabar</p>
+                  <p>Localization Lead at Microsoft</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="auth-form">
-          <h1>Welcome Back</h1>
+          <h1>Welcome Back!</h1>
           {errMsg && <AlertMessage msg={errMsg} type="error" />}
           <form onSubmit={handleLogin}>
             <div className="form-group">
