@@ -39,16 +39,26 @@ def check_key(
 
 
 async def check_request_queue(request: Request):
-    try:
-        # Attempt to add the request to the queue with a timeout
-        await asyncio.wait_for(request.app.state.request_queue.put(request), timeout=0.3)
-    except asyncio.TimeoutError:
-        # If the operation times out, raise an HTTPException indicating the server is too busy
-        raise HTTPException(status_code=429, detail="Too many requests, please try again later.")
-
-    try:
+    if request.app.state.semaphore.locked():
+        if request.app.state.request_queue.qsize() >= request.app.state.request_queue.maxsize:
+            print("Too many requests, rejecting")
+            print("Queue size: " + str(request.app.state.request_queue.qsize()))
+            print("Max size: " + str(request.app.state.request_queue.maxsize))
+            raise HTTPException(status_code=429, detail="Too many requests, please try again later.")
+        await request.app.state.request_queue.put(request)
+        print("Busy added request to queue")
+        print("Queue size: " + str(request.app.state.request_queue.qsize()))
+        print("Max size: " + str(request.app.state.request_queue.maxsize))
+        try:
+            await request.app.state.semaphore.acquire()
+            yield
+        finally:
+            request.app.state.semaphore.release()
+            await request.app.state.request_queue.get()
+            request.app.state.request_queue.task_done()
+    else:
         await request.app.state.semaphore.acquire()
-    finally:
-        request.app.state.semaphore.release()
-        await request.app.state.request_queue.get()
-        request.app.state.request_queue.task_done()
+        try:
+            yield
+        finally:
+            request.app.state.semaphore.release()
