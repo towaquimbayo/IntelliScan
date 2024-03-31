@@ -18,7 +18,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = __importDefault(require("../models/User"));
 const loginSchema = zod_1.z.object({
     email: zod_1.z.string().min(6).email(),
-    password: zod_1.z.string().min(6)
+    password: zod_1.z.string().min(3)
 }).strict();
 const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = loginSchema.safeParse(req.body);

@@ -51,7 +51,7 @@ export default function Signup() {
 
     if (!validatePassword(password)) {
       setErrMsg(
-        "Password must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter and one number."
+        "Password must be at least 3 characters long and contain at least one lowercase letter, one uppercase letter and one number."
       );
       setLoading(false);
       return;
@@ -98,7 +98,7 @@ export default function Signup() {
    * @returns true if the password is valid, false otherwise
    */
   function validatePassword(password) {
-    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}$/;
     return re.test(password);
   }
 

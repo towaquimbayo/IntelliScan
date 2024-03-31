@@ -11,7 +11,7 @@ type RequestBody = {
 // zod Validations
 const loginSchema = z.object({
     email: z.string().min(6).email(),
-    password: z.string().min(6)
+    password: z.string().min(3)
 }).strict();
 
 export const loginValidation = async (req: Request, res: Response, next: NextFunction) => {
