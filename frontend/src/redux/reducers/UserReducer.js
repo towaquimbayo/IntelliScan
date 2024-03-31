@@ -1,4 +1,4 @@
-import { SET_USER, CLEAR_SESSION } from "../Types";
+import { SET_USER, UPDATE_USER_API_CALLS, CLEAR_SESSION } from "../Types";
 
 export const initialState = {
   isLoggedIn: false,
@@ -18,6 +18,11 @@ export default function UserReducer(state = initialState, action) {
         apiCalls: action.payload.apiCalls,
         isAdmin: action.payload.isAdmin,
         username: action.payload.username,
+      };
+    case UPDATE_USER_API_CALLS:
+      return {
+        ...state,
+        apiCalls: action.payload,
       };
     case CLEAR_SESSION:
       return initialState;

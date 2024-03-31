@@ -1,2 +1,3 @@
 export const SET_USER = "SET_USER";
+export const UPDATE_USER_API_CALLS = "UPDATE_USER_API_CALLS";
 export const CLEAR_SESSION = "CLEAR_SESSION";

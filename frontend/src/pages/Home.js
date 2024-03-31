@@ -2,7 +2,7 @@
  * Main page of the application where the user can upload a PDF file and enter a prompt to summarize the document.
  */
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import Layout from "../components/Layout";
@@ -10,21 +10,25 @@ import AlertMessage from "../components/AlertMessage";
 import Button from "../components/Button";
 import { config } from "../config";
 import "../css/home.css";
+import { updateUserApiCalls } from "../redux/actions/UserAction";
 
 export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const apiCalls = useSelector((state) => state.user.apiCalls);
   const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.id);
 
   const endpoint = config.url;
   const [uploadFile, setUploadFile] = useState(null);
   const [isFileDragEnter, setIsFileDragEnter] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [prompt, setPrompt] = useState("Please summarize the document.");
+  const [prompt, setPrompt] = useState("");
   const [modelAPIResponse, setModelAPIResponse] = useState("");
+  const [modelAPIResponseRows, setModelAPIResponseRows] = useState(2);
   const apiConsumption = {
     safe: {
       color: "#0dc08a",
@@ -46,6 +50,12 @@ export default function Home() {
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
   }, [isLoggedIn, navigate]);
+
+  // Dynamically adjust the number of rows in the model API response textarea
+  useEffect(() => {
+    const rows = modelAPIResponse.split("\n").length + 1;
+    setModelAPIResponseRows(Math.max(2, rows));
+  }, [modelAPIResponse]);
 
   /**
    * Get the API consumption rate as a percentage.
@@ -207,6 +217,7 @@ export default function Home() {
     const promptFormatted = prompt.trim().replace(/\n/g, " ");
     formData.append("file", uploadFile);
     formData.append("prompt", promptFormatted);
+    formData.append("userId", userId);
 
     try {
       const response = await fetch(endpoint + "/api/file/prompt", {
@@ -216,9 +227,18 @@ export default function Home() {
 
       if (response.ok) {
         const message = await response.text();
-        setModelAPIResponse(message);
+        dispatch(updateUserApiCalls(apiCalls + 1));
         setFieldErrors({});
         setLoading(false);
+
+        // typing effect
+        const typingEffect = async (text) => {
+          for (let i = 0; i < text.length; i++) {
+            setModelAPIResponse((prev) => prev + text[i]);
+            await new Promise((resolve) => setTimeout(resolve, 20));
+          }
+        };
+        await typingEffect(message);
       } else {
         const data = await response.json();
         console.error("File upload failed", data);
@@ -304,13 +324,13 @@ export default function Home() {
                 Enter a prompt about the document:
               </label>
               <textarea
-                id="prompt"
                 placeholder="Please summarize the document."
                 value={prompt}
                 onChange={(e) => {
                   setPrompt(e.target.value);
                   setFieldErrors({});
                 }}
+                rows={6}
               ></textarea>
               <Button
                 title="Submit Prompt"
@@ -322,9 +342,12 @@ export default function Home() {
             </div>
             <div className="modelAPIResponseContainer">
               <h2>Model API Response</h2>
-              <div className="modelAPIResponse">
-                <p>{modelAPIResponse}</p>
-              </div>
+              <textarea
+                id="modelAPIResponse"
+                value={modelAPIResponse}
+                readOnly
+                rows={modelAPIResponseRows}
+              ></textarea>
             </div>
           </>
         ) : (

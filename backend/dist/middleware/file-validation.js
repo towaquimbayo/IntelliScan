@@ -15,12 +15,14 @@ const fileSchema = zod_1.z
         size: zod_1.z.number(),
     }),
     prompt: zod_1.z.string(),
+    userId: zod_1.z.string(),
 })
     .strict();
 const fileValidation = (req, res, next) => {
     const parsed = fileSchema.safeParse({
         file: req.file,
         prompt: req.body.prompt,
+        userId: req.body.userId,
     });
     if (!parsed.success)
         res.status(400).send(parsed.error);
@@ -28,6 +30,20 @@ const fileValidation = (req, res, next) => {
         const { prompt } = req.body;
         const file = req.file;
         console.log("File validation middleware:", file, prompt);
+        if (!file)
+            return res.status(400).send({ message: "No file uploaded." });
+        if (!prompt)
+            return res.status(400).send({ message: "No prompt provided." });
+        if (file.mimetype !== "application/pdf") {
+            return res
+                .status(400)
+                .send({ message: "Invalid file type. Please upload a PDF file." });
+        }
+        if (file.size > 2097152) {
+            return res.status(400).send({
+                message: "File size too large. Please upload a file less than 2MB.",
+            });
+        }
         console.log("File validation passed!");
         next();
     }
