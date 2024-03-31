@@ -39,12 +39,15 @@ async def generate(
         raise HTTPException(status_code=400, detail="Missing prompt")
 
     if context is None:
+        prompt = prompt[:2048]
         chat_history = [
             {"role": "user", "content": pre_query},
             {"role": "assistant", "content": pre_prompt},
             {"role": "user", "content": prompt},
         ]
     else:
+        context = context[:8192]
+        prompt = prompt[:2048]
         chat_history = [
             {"role": "user", "content": pre_query},
             {"role": "assistant", "content": pre_prompt},
