@@ -39,26 +39,18 @@ def check_key(
 
 
 async def check_request_queue(request: Request):
-    if request.app.state.semaphore.locked():
-        if request.app.state.request_queue.qsize() >= request.app.state.request_queue.maxsize:
-            print("Too many requests, rejecting")
-            print("Queue size: " + str(request.app.state.request_queue.qsize()))
-            print("Max size: " + str(request.app.state.request_queue.maxsize))
-            raise HTTPException(status_code=429, detail="Too many requests, please try again later.")
-        await request.app.state.request_queue.put(request)
-        print("Busy added request to queue")
-        print("Queue size: " + str(request.app.state.request_queue.qsize()))
-        print("Max size: " + str(request.app.state.request_queue.maxsize))
-        try:
-            await request.app.state.semaphore.acquire()
-            yield
-        finally:
-            request.app.state.semaphore.release()
-            await request.app.state.request_queue.get()
-            request.app.state.request_queue.task_done()
-    else:
+    if request.app.state.request_queue.qsize() >= request.app.state.request_queue.maxsize:
+        print("Too many requests, rejecting")
+        print("Queue size: " + str(request.app.state.request_queue.qsize()) +
+              "Max size: " + str(request.app.state.request_queue.maxsize))
+        raise HTTPException(status_code=429, detail="Too many requests, please try again later.")
+
+    await request.app.state.request_queue.put(request)
+
+    try:
         await request.app.state.semaphore.acquire()
-        try:
-            yield
-        finally:
-            request.app.state.semaphore.release()
+        yield
+    finally:
+        request.app.state.semaphore.release()
+        await request.app.state.request_queue.get()
+        request.app.state.request_queue.task_done()
