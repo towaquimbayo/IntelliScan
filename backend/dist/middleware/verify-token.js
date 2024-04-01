@@ -7,8 +7,10 @@ exports.verify = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verify = (req, res, next) => {
     const token = req.cookies['token'];
-    if (!token)
+    if (!token) {
+        console.error('Access denied!!!', token);
         return res.status(401).send('Access denied!!!');
+    }
     try {
         const verify = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         req.user = verify;

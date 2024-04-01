@@ -55,6 +55,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     // Create and assign a JWT
+    const environment = (process.env.NODE_ENV as string).trim().toString();
     const token = jwt.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
     });
@@ -62,7 +63,8 @@ export const loginUser = async (req: Request, res: Response) => {
     res.cookie('token', token, {
         httpOnly: true,
         secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+        domain: environment === "development" ? "localhost" : ".towaquimbayo.com",
     });
     res.send({
         "status": 200,

@@ -4,8 +4,8 @@
   "description": "Basic template you can use in your Node Backends for JWT authentication - TypeScript edition.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "set NODE_ENV=PRODUCTION && tsc && node dist/index.js",
-    "dev": "set NODE_ENV=DEV && tsc && nodemon dist/index.js",
+    "start": "set NODE_ENV=production && tsc && node dist/index.js",
+    "dev": "set NODE_ENV=development && tsc && nodemon dist/index.js",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

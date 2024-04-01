@@ -56,6 +56,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         return;
     }
+    const environment = process.env.NODE_ENV.trim().toString();
     const token = jsonwebtoken_1.default.sign({ id: req.userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_LIFETIME
     });
@@ -63,7 +64,8 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.cookie('token', token, {
         httpOnly: true,
         secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 30
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+        domain: environment === "development" ? "localhost" : ".towaquimbayo.com",
     });
     res.send({
         "status": 200,
