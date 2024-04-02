@@ -3,7 +3,7 @@ import { FaSpinner } from "react-icons/fa";
 export default function Button({
   type = "button",
   title,
-  onClick,
+  onClick = () => {},
   loading,
   text,
   children,

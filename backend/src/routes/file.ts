@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import { filePrompt } from "../controllers/file";
 import { fileValidation } from "../middleware/file-validation";
+import { verify } from "../middleware/verify-token";
 import multer from "multer";
 
 // Multer configuration
@@ -15,6 +16,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post("/prompt", upload.single("file"), fileValidation, filePrompt);
+router.post("/prompt", verify, upload.single("file"), fileValidation, filePrompt);
 
 export default router;

@@ -236,6 +236,7 @@ export default function Home() {
       const response = await fetch(endpoint + "/api/file/prompt", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
       if (response.ok) {
