@@ -24,7 +24,7 @@ export default function Home() {
   const endpoint = config.url;
   const [uploadFile, setUploadFile] = useState(null);
   const [isFileDragEnter, setIsFileDragEnter] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [errMsg, setErrMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [modelAPIResponse, setModelAPIResponse] = useState("");
@@ -168,7 +168,7 @@ export default function Home() {
   function handleFileDrop(e) {
     e.preventDefault();
     e.stopPropagation();
-    setFieldErrors({});
+    setErrMsg("");
     setIsFileDragEnter(false);
     handleFileUpload(e.dataTransfer.files[0]);
   }
@@ -180,20 +180,14 @@ export default function Home() {
    */
   function handleFileUpload(file) {
     console.log(file);
-    setFieldErrors({});
+    setErrMsg("");
     if (file.size > 2097152) {
       // 2MB
-      setFieldErrors((prev) => ({
-        ...prev,
-        uploadFile: "File size exceeds 2MB. Please upload a smaller file.",
-      }));
+      setErrMsg("File size exceeds 2MB. Please upload a smaller file.");
       return;
     }
     if (file.type !== "application/pdf") {
-      setFieldErrors((prev) => ({
-        ...prev,
-        uploadFile: "Invalid file format. Please upload a PDF file.",
-      }));
+      setErrMsg("Invalid file format. Please upload a PDF file.");
       return;
     }
     setUploadFile(file);
@@ -206,22 +200,23 @@ export default function Home() {
   async function submitFile() {
     setLoading(true);
     setModelAPIResponse("");
+    setErrMsg("");
 
     if (!uploadFile) {
-      setFieldErrors({ uploadFile: "Please select a file to upload." });
+      setErrMsg("Please select a file to upload.");
       setLoading(false);
       return;
     }
 
     if (prompt.trim() === "") {
-      setFieldErrors({ prompt: "Please enter a prompt." });
+      setErrMsg("Please enter a prompt.");
       setPrompt("");
       setLoading(false);
       return;
     }
 
     if (prompt.trim().length > 500) {
-      setFieldErrors({ prompt: "Prompt cannot exceed 500 characters." });
+      setErrMsg("Prompt cannot exceed 500 characters.");
       setLoading(false);
       return;
     }
@@ -243,7 +238,6 @@ export default function Home() {
         const message = await response.text();
         console.log("Model API response:", message);
         dispatch(updateUserApiCalls(apiCalls + 1));
-        setFieldErrors({});
         setLoading(false);
 
         // typing effect
@@ -257,17 +251,14 @@ export default function Home() {
       } else {
         const data = await response.json();
         console.error("File upload failed", data);
-        setFieldErrors({
-          uploadFile:
-            data.message ||
-            "An unexpected error occurred. Please try again later.",
-        });
+        setErrMsg(
+          data.message ||
+            "An unexpected error occurred. Please try again later."
+        );
       }
     } catch (error) {
       console.error("Error during file upload:", error);
-      setFieldErrors({
-        uploadFile: "An unexpected error occurred. Please try again later.",
-      });
+      setErrMsg("An unexpected error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -297,12 +288,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {errMsg && <AlertMessage msg={errMsg} type="error" />}
 
         {uploadFile ? (
           <>
-            {fieldErrors?.prompt && (
-              <AlertMessage msg={fieldErrors.prompt} type="error" />
-            )}
             <div className="fileSubmitContainer">
               <h2>Ready to Submit Prompt?</h2>
             </div>
@@ -323,8 +312,9 @@ export default function Home() {
                   title="Remove file for submission"
                   onClick={() => {
                     setUploadFile(null);
-                    setFieldErrors({});
+                    setErrMsg("");
                     setPrompt("");
+                    setModelAPIResponse("");
                   }}
                   value="Remove"
                 />
@@ -343,7 +333,7 @@ export default function Home() {
                 value={prompt}
                 onChange={(e) => {
                   setPrompt(e.target.value);
-                  setFieldErrors({});
+                  setErrMsg("");
                 }}
                 rows={6}
               ></textarea>
@@ -368,9 +358,6 @@ export default function Home() {
           </>
         ) : (
           <>
-            {fieldErrors?.uploadFile && (
-              <AlertMessage msg={fieldErrors.uploadFile} type="error" />
-            )}
             <div
               className={`dragdropContainer ${isFileDragEnter ? "active" : ""}`}
               onDragOver={handleFileDragOver}
