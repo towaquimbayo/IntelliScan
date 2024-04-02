@@ -97,6 +97,7 @@ const filePrompt = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         user.api_calls += 1;
         yield user.save();
+        fs_1.default.unlinkSync(file.path);
         res.send(modelResponse);
     }
     catch (err) {

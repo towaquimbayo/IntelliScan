@@ -107,6 +107,9 @@ export const filePrompt = async (req: Request, res: Response) => {
     user.api_calls += 1;
     await user.save();
 
+    // delete the file from /uploads folder
+    fs.unlinkSync(file.path);
+
     res.send(modelResponse);
   } catch (err) {
     console.error("File prompt failed:", err);
