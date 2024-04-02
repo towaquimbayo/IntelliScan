@@ -64,7 +64,8 @@ export const loginUser = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-        domain: environment === "development" ? "localhost" : ".towaquimbayo.com",
+        domain: environment === "development" ? "localhost" : ".noufilsaqib.com",
+        sameSite: "none",
     });
     res.send({
         "status": 200,

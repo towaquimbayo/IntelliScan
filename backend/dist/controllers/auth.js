@@ -65,7 +65,8 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         httpOnly: true,
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
-        domain: environment === "development" ? "localhost" : ".towaquimbayo.com",
+        domain: environment === "development" ? "localhost" : ".noufilsaqib.com",
+        sameSite: "none",
     });
     res.send({
         "status": 200,
