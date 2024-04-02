@@ -107,6 +107,19 @@ export default function Home() {
         </p>
       );
     }
+    if (apiCalls < 20) {
+      return (
+        <p>
+          Your API consumption status is in the{" "}
+          <b style={{ color: apiConsumption.danger.color }}>
+            {apiConsumption.danger.status}
+          </b>{" "}
+          You have{" "}
+          <b style={{ color: apiConsumption.danger.color }}>{20 - apiCalls}</b>{" "}
+          API calls remaining.
+        </p>
+      );
+    }
     return (
       <p>
         Your API consumption status is in the{" "}

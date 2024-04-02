@@ -15,7 +15,13 @@ export default function Button({
     <button
       type={type}
       title={title}
-      onClick={onClick}
+      onClick={(e) => {
+        if (disabled) {
+          e.preventDefault();
+          return;
+        }
+        onClick();
+      }}
       className={
         `btnPrimary` + (full ? " full" : "") + (disabled ? " disabled" : "")
       }
