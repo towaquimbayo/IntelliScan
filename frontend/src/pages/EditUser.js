@@ -19,25 +19,27 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
     if (!isAdmin) navigate("/");
-    fetchUser();
   }, [isLoggedIn, isAdmin, navigate]);
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(endpoint + "/api/protected/users", {
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const user = data.users.find((user) => user._id === id);
-        setUser(user);
-      } else {
-        console.error("Fetch users failed:", response);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(endpoint + "/api/protected/users", {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const user = data.users.find((user) => user._id === id);
+          setUser(user);
+        } else {
+          console.error("Fetch users failed:", response);
+        }
+      } catch (error) {
+        console.error("Error during fetch users:", error);
       }
-    } catch (error) {
-      console.error("Error during fetch users:", error);
     }
-  }
+    fetchUser();
+  }, [id, endpoint]);
 
   const handleUserEdit = async (e, id) => {
     e.preventDefault();
