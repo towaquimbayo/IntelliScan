@@ -227,6 +227,7 @@ export default function Home() {
 
       if (response.ok) {
         const message = await response.text();
+        console.log("Model API response:", message);
         dispatch(updateUserApiCalls(apiCalls + 1));
         setFieldErrors({});
         setLoading(false);
@@ -336,6 +337,7 @@ export default function Home() {
                 title="Submit Prompt"
                 onClick={submitFile}
                 loading={loading}
+                disabled={loading}
                 text="Submit Prompt"
                 customStyle={{ marginTop: "1rem" }}
               />

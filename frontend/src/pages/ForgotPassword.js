@@ -139,8 +139,8 @@ export default function ForgotPassword() {
     setLoading(true);
     clearMessages();
 
-    if (!password || password.length < 8 || password.length > 50) {
-      setErrMsg("Please enter a password between 8 and 50 characters.");
+    if (!password || password.length < 3 || password.length > 50) {
+      setErrMsg("Please enter a password between 3 and 50 characters.");
       setLoading(false);
       return;
     }
@@ -197,7 +197,7 @@ export default function ForgotPassword() {
         <div className="pageHeader">
           <h1>Update Password</h1>
           <p>
-            Almost done! Please enter a new password between 8 to 50 characters
+            Almost done! Please enter a new password between 3 to 50 characters
             for your account.
           </p>
         </div>
@@ -280,7 +280,7 @@ export default function ForgotPassword() {
                 setPassword(e.target.value);
                 setErrMsg("");
               }}
-              minLength={8}
+              minLength={3}
               maxLength={50}
               required
             />
