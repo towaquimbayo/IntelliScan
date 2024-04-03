@@ -20,7 +20,7 @@ export default function Button({
           e.preventDefault();
           return;
         }
-        onClick();
+        onClick(e);
       }}
       className={
         `btnPrimary` + (full ? " full" : "") + (disabled ? " disabled" : "")
