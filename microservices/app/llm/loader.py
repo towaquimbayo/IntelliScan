@@ -19,12 +19,16 @@ def load_model(model_path):
         device = "cpu"
 
     print("Device: " + device)
-    quantization_config = BitsAndBytesConfig(load_in_4bit=True)
-    model = AutoModelForCausalLM.from_pretrained(model_path,
-                                                 torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
-                                                 device_map="auto",
-                                                 quantization_config=quantization_config,
-                                                 attn_implementation="flash_attention_2")
+
+    if device == "cuda":
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True)
+        model = AutoModelForCausalLM.from_pretrained(model_path,
+                                                     torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+                                                     device_map="auto",
+                                                     quantization_config=quantization_config,
+                                                     attn_implementation="flash_attention_2")
+    else:
+        model = AutoModelForCausalLM.from_pretrained(model_path)
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, model_max_length=2048)
     return model, tokenizer

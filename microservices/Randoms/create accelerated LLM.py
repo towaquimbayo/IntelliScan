@@ -17,7 +17,7 @@ def accelerate(model_name, save):
     tokenizer.save_pretrained(save)
 
 
-modelName = "../gemma-7b-it"
-save = "../accelerated-gemma-7b-it"
+modelName = "../gemma-2b-it"
+save = "../accelerated-gemma-2b-it"
 
 accelerate(modelName, save)
