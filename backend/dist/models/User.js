@@ -23,9 +23,8 @@ const UserSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now()
     },
-    api_calls: {
-        type: Number,
-        default: 0
+    token: {
+        type: String,
     },
     admin: {
         type: Boolean,

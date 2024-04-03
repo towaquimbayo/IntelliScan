@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.editUser = exports.deleteUser = exports.fetchUsers = exports.sampleController = void 0;
 const User_1 = __importDefault(require("../models/User"));
+const Api_1 = __importDefault(require("../models/Api"));
 const sampleController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(200).json({ data: 'This is only accessible using JWT', user: req.user });
 });
@@ -21,6 +22,18 @@ exports.sampleController = sampleController;
 const fetchUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield User_1.default.find({}, '-password');
+        const userId = req.user.id;
+        if (!userId) {
+            console.error("User not found");
+            return res.status(404).send("User not found");
+        }
+        const api = yield Api_1.default.findOne({ user: userId, endpoint: "/api/protected/users" });
+        if (!api) {
+            console.error("API not found for fetch users endpoint.");
+            return res.status(400).send({ message: "API not found for fetch users endpoint." });
+        }
+        api.requests += 1;
+        yield api.save();
         res.status(200).json({ users });
     }
     catch (err) {
@@ -34,8 +47,20 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const id = req.params.id;
         const user = yield User_1.default.findByIdAndDelete(id);
         if (!user) {
+            console.error("User not found");
             return res.status(404).send("User not found");
         }
+        const api = yield Api_1.default.findOne({
+            user: req.userId,
+            endpoint: "/api/protected/users/:id",
+            method: "DELETE"
+        });
+        if (!api) {
+            console.error("API not found for delete user endpoint.");
+            return res.status(400).send({ message: "API not found for delete user endpoint." });
+        }
+        api.requests += 1;
+        yield api.save();
         res.status(200).json({ message: "User deleted successfully" });
     }
     catch (err) {
@@ -50,8 +75,20 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { name, email, admin, api_calls } = req.body;
         const user = yield User_1.default.findByIdAndUpdate(id, { name, email, admin, api_calls }, { new: true });
         if (!user) {
+            console.error('User not found');
             return res.status(404).send("User not found");
         }
+        const api = yield Api_1.default.findOne({
+            user: req.userId,
+            endpoint: "/api/protected/users/:id",
+            method: "PUT"
+        });
+        if (!api) {
+            console.error("API not found for edit user endpoint.");
+            return res.status(400).send({ message: "API not found for edit user endpoint." });
+        }
+        api.requests += 1;
+        yield api.save();
         res.status(200).json({ message: "User updated successfully", user });
     }
     catch (err) {

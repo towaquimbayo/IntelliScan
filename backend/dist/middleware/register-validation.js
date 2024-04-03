@@ -19,7 +19,8 @@ const registerSchema = zod_1.z.object({
     name: zod_1.z.string().min(3),
     email: zod_1.z.string().min(3).email(),
     password: zod_1.z.string().min(3),
-    admin: zod_1.z.boolean().optional()
+    admin: zod_1.z.boolean().optional(),
+    token: zod_1.z.string().optional(),
 }).strict();
 const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = registerSchema.safeParse(req.body);

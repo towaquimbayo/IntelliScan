@@ -16,7 +16,7 @@ exports.filePrompt = void 0;
 const axios_1 = __importDefault(require("axios"));
 const fs_1 = __importDefault(require("fs"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const User_1 = __importDefault(require("../models/User"));
+const Api_1 = __importDefault(require("../models/Api"));
 dotenv_1.default.config();
 function getTextFromPdf(base64Pdf) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -86,17 +86,18 @@ const filePrompt = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 .status(400)
                 .send({ message: "Failed to get model response based on prompt." });
         }
-        const user = yield User_1.default.findById(userId);
-        if (!user) {
-            console.error("User not found for the provided ID.");
-            return res
-                .status(404)
-                .send({
-                message: "User not found for the provided ID. Please try again.",
+        const apiPrompt = yield Api_1.default.findOne({
+            user: userId,
+            endpoint: "/api/file/prompt",
+        });
+        if (!apiPrompt) {
+            console.error("API not found for prompt file endpoint.");
+            return res.status(400).send({
+                message: "API not found for prompt file endpoint.",
             });
         }
-        user.api_calls += 1;
-        yield user.save();
+        apiPrompt.requests += 1;
+        yield apiPrompt.save();
         fs_1.default.unlinkSync(file.path);
         res.send(modelResponse);
     }

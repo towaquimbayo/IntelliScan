@@ -3,6 +3,7 @@ import axios from "axios";
 import fs from "fs";
 import dotenv from "dotenv";
 import User from "../models/User";
+import Api from "../models/Api";
 dotenv.config();
 
 /**
@@ -95,17 +96,21 @@ export const filePrompt = async (req: Request, res: Response) => {
     }
 
     // update user's api call usage
-    const user = await User.findById(userId);
-    if (!user) {
-      console.error("User not found for the provided ID.");
-      return res
-        .status(404)
-        .send({
-          message: "User not found for the provided ID. Please try again.",
-        });
+    const apiPrompt = await Api.findOne({
+      user: userId,
+      endpoint: "/api/file/prompt",
+    });
+
+    if (!apiPrompt) {
+      console.error("API not found for prompt file endpoint.");
+      return res.status(400).send({
+        message: "API not found for prompt file endpoint.",
+      });
     }
-    user.api_calls += 1;
-    await user.save();
+
+    // increment the prompt api call count
+    apiPrompt.requests += 1;
+    await apiPrompt.save();
 
     // delete the file from /uploads folder
     fs.unlinkSync(file.path);

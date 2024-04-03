@@ -8,7 +8,8 @@ const registerSchema = z.object({
     name: z.string().min(3),
     email: z.string().min(3).email(),
     password: z.string().min(3),
-    admin: z.boolean().optional()
+    admin: z.boolean().optional(),
+    token: z.string().optional(),
 }).strict();
 
 type RequestBody = {
