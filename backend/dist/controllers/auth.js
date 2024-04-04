@@ -44,42 +44,42 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const apiEndpoints = [
             {
                 method: "POST",
-                endpoint: "/api/user/register",
+                endpoint: "/api/v1/user/register",
                 requests: 1,
             },
             {
                 method: "POST",
-                endpoint: "/api/user/login",
+                endpoint: "/api/v1/user/login",
                 requests: 0,
             },
             {
                 method: "POST",
-                endpoint: "/api/user/forgot-password",
+                endpoint: "/api/v1/user/forgot-password",
                 requests: 0,
             },
             {
                 method: "POST",
-                endpoint: "/api/user/reset-password",
+                endpoint: "/api/v1/user/reset-password",
                 requests: 0,
             },
             {
                 method: "POST",
-                endpoint: "/api/file/prompt",
+                endpoint: "/api/v1/file/prompt",
                 requests: 0,
             },
             {
                 method: "GET",
-                endpoint: "/api/protected/users",
+                endpoint: "/api/v1/protected/users",
                 requests: 0,
             },
             {
                 method: "DELETE",
-                endpoint: "/api/protected/users/:id",
+                endpoint: "/api/v1/protected/users/:id",
                 requests: 0,
             },
             {
                 method: "PUT",
-                endpoint: "/api/protected/users/:id",
+                endpoint: "/api/v1/protected/users/:id",
                 requests: 0,
             },
         ];
@@ -116,7 +116,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield user.save();
     const apiLogin = yield Api_1.default.findOne({
         user: user._id,
-        endpoint: "/api/user/login",
+        endpoint: "/api/v1/user/login",
     });
     if (!apiLogin) {
         console.error("API not found for user login endpoint.");
@@ -129,7 +129,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield apiLogin.save();
     const apiPrompt = yield Api_1.default.findOne({
         user: user._id,
-        endpoint: "/api/file/prompt",
+        endpoint: "/api/v1/file/prompt",
     });
     if (!apiPrompt) {
         console.error("API not found for prompt file endpoint.");
@@ -214,7 +214,7 @@ const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, 
         }
         const apiForgotPassword = yield Api_1.default.findOne({
             user: user._id,
-            endpoint: "/api/user/forgot-password",
+            endpoint: "/api/v1/user/forgot-password",
         });
         if (!apiForgotPassword) {
             console.error("API not found for user forgot password endpoint.");
@@ -249,7 +249,7 @@ const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         yield user.save();
         const apiResetPassword = yield Api_1.default.findOne({
             user: user._id,
-            endpoint: "/api/user/reset-password",
+            endpoint: "/api/v1/user/reset-password",
         });
         if (!apiResetPassword) {
             console.error("API not found for user reset password endpoint.");

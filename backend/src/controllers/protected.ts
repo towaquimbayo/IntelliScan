@@ -17,7 +17,7 @@ export const fetchUsers = async (req: Request, res: Response) => {
         }
 
         // find user api call
-        const api = await Api.findOne({ user: userId, endpoint: "/api/protected/users" });
+        const api = await Api.findOne({ user: userId, endpoint: "/api/v1/protected/users" });
         if (!api) {
             console.error("API not found for fetch users endpoint.");
             return res.status(400).send({ message: "API not found for fetch users endpoint." });
@@ -46,7 +46,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         // find user api call
         const api = await Api.findOne({
             user: req.userId,
-            endpoint: "/api/protected/users/:id",
+            endpoint: "/api/v1/protected/users/:id",
             method: "DELETE"
         });
 
@@ -79,7 +79,7 @@ export const editUser = async (req: Request, res: Response) => {
         // find user api call
         const api = await Api.findOne({
             user: req.userId,
-            endpoint: "/api/protected/users/:id",
+            endpoint: "/api/v1/protected/users/:id",
             method: "PUT"
         });
 

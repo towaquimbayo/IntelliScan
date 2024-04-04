@@ -98,7 +98,7 @@ export const filePrompt = async (req: Request, res: Response) => {
     // update user's api call usage
     const apiPrompt = await Api.findOne({
       user: userId,
-      endpoint: "/api/file/prompt",
+      endpoint: "/api/v1/file/prompt",
     });
 
     if (!apiPrompt) {

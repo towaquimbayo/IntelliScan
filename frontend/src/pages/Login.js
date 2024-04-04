@@ -42,7 +42,7 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch(endpoint + "/api/user/login", {
+      const response = await fetch(endpoint + "/api/v1/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

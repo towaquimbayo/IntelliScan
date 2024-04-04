@@ -228,7 +228,7 @@ export default function Home() {
     formData.append("userId", userId);
 
     try {
-      const response = await fetch(endpoint + "/api/file/prompt", {
+      const response = await fetch(endpoint + "/api/v1/file/prompt", {
         method: "POST",
         body: formData,
         credentials: "include",

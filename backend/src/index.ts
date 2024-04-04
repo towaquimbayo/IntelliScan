@@ -34,9 +34,9 @@ app.use(
 );
 
 // Routes
-app.use("/api/user", authRoute);
-app.use("/api/file", fileRoute);
-app.use("/api/protected", protectedRoutes); // just for example
+app.use("/api/v1/user", authRoute);
+app.use("/api/v1/file", fileRoute);
+app.use("/api/v1/protected", protectedRoutes); // just for example
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 

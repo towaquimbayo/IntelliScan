@@ -27,7 +27,7 @@ const fetchUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             console.error("User not found");
             return res.status(404).send("User not found");
         }
-        const api = yield Api_1.default.findOne({ user: userId, endpoint: "/api/protected/users" });
+        const api = yield Api_1.default.findOne({ user: userId, endpoint: "/api/v1/protected/users" });
         if (!api) {
             console.error("API not found for fetch users endpoint.");
             return res.status(400).send({ message: "API not found for fetch users endpoint." });
@@ -52,7 +52,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const api = yield Api_1.default.findOne({
             user: req.userId,
-            endpoint: "/api/protected/users/:id",
+            endpoint: "/api/v1/protected/users/:id",
             method: "DELETE"
         });
         if (!api) {
@@ -80,7 +80,7 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const api = yield Api_1.default.findOne({
             user: req.userId,
-            endpoint: "/api/protected/users/:id",
+            endpoint: "/api/v1/protected/users/:id",
             method: "PUT"
         });
         if (!api) {

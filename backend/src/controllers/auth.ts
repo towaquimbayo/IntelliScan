@@ -43,42 +43,42 @@ export const registerUser = async (req: Request, res: Response) => {
     const apiEndpoints = [
       {
         method: "POST",
-        endpoint: "/api/user/register",
+        endpoint: "/api/v1/user/register",
         requests: 1,
       },
       {
         method: "POST",
-        endpoint: "/api/user/login",
+        endpoint: "/api/v1/user/login",
         requests: 0,
       },
       {
         method: "POST",
-        endpoint: "/api/user/forgot-password",
+        endpoint: "/api/v1/user/forgot-password",
         requests: 0,
       },
       {
         method: "POST",
-        endpoint: "/api/user/reset-password",
+        endpoint: "/api/v1/user/reset-password",
         requests: 0,
       },
       {
         method: "POST",
-        endpoint: "/api/file/prompt",
+        endpoint: "/api/v1/file/prompt",
         requests: 0,
       },
       {
         method: "GET",
-        endpoint: "/api/protected/users",
+        endpoint: "/api/v1/protected/users",
         requests: 0,
       },
       {
         method: "DELETE",
-        endpoint: "/api/protected/users/:id",
+        endpoint: "/api/v1/protected/users/:id",
         requests: 0,
       },
       {
         method: "PUT",
-        endpoint: "/api/protected/users/:id",
+        endpoint: "/api/v1/protected/users/:id",
         requests: 0,
       },
     ];
@@ -122,7 +122,7 @@ export const loginUser = async (req: Request, res: Response) => {
   // update user login api call count
   const apiLogin = await Api.findOne({
     user: user._id,
-    endpoint: "/api/user/login",
+    endpoint: "/api/v1/user/login",
   });
 
   if (!apiLogin) {
@@ -140,7 +140,7 @@ export const loginUser = async (req: Request, res: Response) => {
   // get the prompt api call count
   const apiPrompt = await Api.findOne({
     user: user._id,
-    endpoint: "/api/file/prompt",
+    endpoint: "/api/v1/file/prompt",
   });
 
   if (!apiPrompt) {
@@ -242,7 +242,7 @@ export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
 
     const apiForgotPassword = await Api.findOne({
       user: user._id,
-      endpoint: "/api/user/forgot-password",
+      endpoint: "/api/v1/user/forgot-password",
     });
 
     if (!apiForgotPassword) {
@@ -290,7 +290,7 @@ export const updatePassword = async (req: Request, res: Response) => {
     // update user reset password api call count
     const apiResetPassword = await Api.findOne({
       user: user._id,
-      endpoint: "/api/user/reset-password",
+      endpoint: "/api/v1/user/reset-password",
     });
 
     if (!apiResetPassword) {

@@ -58,7 +58,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await fetch(endpoint + "/api/user/register", {
+      const response = await fetch(endpoint + "/api/v1/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

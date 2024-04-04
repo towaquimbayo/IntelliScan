@@ -41,9 +41,9 @@ app.use((0, cors_1.default)({
     origin: [clientProdUrl, clientDevUrl],
     credentials: true,
 }));
-app.use("/api/user", auth_1.default);
-app.use("/api/file", file_1.default);
-app.use("/api/protected", protected_1.default);
+app.use("/api/v1/user", auth_1.default);
+app.use("/api/v1/file", file_1.default);
+app.use("/api/v1/protected", protected_1.default);
 app.use(not_found_1.notFound);
 app.use(error_handler_1.errorHandlerMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {

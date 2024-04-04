@@ -27,7 +27,7 @@ export default function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(endpoint + "/api/protected/users", {
+      const response = await fetch(endpoint + "/api/v1/protected/users", {
         credentials: "include",
       });
       if (response.ok) {
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
 
   const handleUserDelete = async (id) => {
     try {
-      const response = await fetch(endpoint + `/api/protected/users/${id}`, {
+      const response = await fetch(endpoint + `/api/v1/protected/users/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

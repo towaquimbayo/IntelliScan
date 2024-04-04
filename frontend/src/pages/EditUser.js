@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(endpoint + "/api/protected/users", {
+        const response = await fetch(endpoint + "/api/v1/protected/users", {
           credentials: "include",
         });
         if (response.ok) {
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const response = await fetch(endpoint + `/api/protected/users/${id}`, {
+      const response = await fetch(endpoint + `/api/v1/protected/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

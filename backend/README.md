@@ -5,13 +5,13 @@ Basic template you can use in your projects for JWT authentication. It is built 
 
 ## Routes:
 
-#### /api/user/register  - POST
+#### /api/v1/user/register  - POST
 Creates a new user. It takes name, email and password in the request body and stores the name, email and *hashed password* in the Mongo database.
 
-#### /api/user/login  - POST
+#### /api/v1/user/login  - POST
 Logs in the registered user and sends a new signed JWT. This JWT can be stored in local storage, etc.
 
-#### /api/protected  - GET
+#### /api/v1/protected  - GET
 Simple protected route, just for testing the JWT. You will need a valid JWT to access this route. Put the JWT in the header like: Authorization: 'Bearer [JWT]'
 
 ## How to use this template:

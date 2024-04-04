@@ -88,7 +88,7 @@ const filePrompt = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const apiPrompt = yield Api_1.default.findOne({
             user: userId,
-            endpoint: "/api/file/prompt",
+            endpoint: "/api/v1/file/prompt",
         });
         if (!apiPrompt) {
             console.error("API not found for prompt file endpoint.");

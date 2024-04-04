@@ -56,7 +56,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch(endpoint + "/api/user/forgot-password", {
+      const response = await fetch(endpoint + "/api/v1/user/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.toLowerCase() }),
@@ -102,7 +102,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch(endpoint + "/api/user/verify-otp", {
+      const response = await fetch(endpoint + "/api/v1/user/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.toLowerCase(), userOtp: otp }),
@@ -146,7 +146,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch(endpoint + "/api/user/reset-password", {
+      const response = await fetch(endpoint + "/api/v1/user/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
