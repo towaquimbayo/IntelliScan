@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import AlertMessage from "../components/AlertMessage";
 import Button from "../components/Button";
 import { config } from "../config";
+import messages from "../messages/lang/en/user.json";
 import "../css/forgotPassword.css";
 
 export default function ForgotPassword() {
@@ -50,7 +51,7 @@ export default function ForgotPassword() {
     clearMessages();
 
     if (!email) {
-      setErrMsg("Please enter your email address.");
+      setErrMsg(messages.emptyEmailError);
       setLoading(false);
       return;
     }
@@ -64,21 +65,16 @@ export default function ForgotPassword() {
 
       if (response.ok) {
         document.getElementById("forgotPasswordForm").reset(); // Clear form
-        setInfoMsg(
-          "An email has been sent. Please check your inbox or spam folder for the code."
-        );
+        setInfoMsg(messages.forgotPasswordEmailSent);
         setFormStep(steps.verifyOTP);
       } else {
         const data = await response.json();
         console.error("Error sending email:", data);
-        setErrMsg(
-          data.message ||
-            "An unexpected error occurred. Please try again later."
-        );
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (e) {
       console.error("Error sending email:", e);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }
@@ -96,7 +92,7 @@ export default function ForgotPassword() {
     clearMessages();
 
     if (!otp) {
-      setErrMsg("Please enter the verification code.");
+      setErrMsg(messages.emptyOtpError);
       setLoading(false);
       return;
     }
@@ -109,20 +105,17 @@ export default function ForgotPassword() {
       });
 
       if (response.ok) {
-        setSuccessMsg("Verification successful. Please enter a new password.");
+        setSuccessMsg(messages.otpVerificationSuccess);
         setFormStep(steps.resetPassword);
         setTimeout(() => setSuccessMsg(""), 5000);
       } else {
         const data = await response.json();
         console.error("Error validating OTP:", data);
-        setErrMsg(
-          data.message ||
-            "An unexpected error occurred. Please try again later."
-        );
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (e) {
       console.error("Error validating OTP:", e);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }
@@ -140,7 +133,7 @@ export default function ForgotPassword() {
     clearMessages();
 
     if (!password || password.length < 3 || password.length > 50) {
-      setErrMsg("Please enter a password between 3 and 50 characters.");
+      setErrMsg(messages.invalidPasswordError);
       setLoading(false);
       return;
     }
@@ -156,9 +149,7 @@ export default function ForgotPassword() {
       });
 
       if (response.ok) {
-        setSuccessMsg(
-          "Password updated successfully. Redirecting you to the login page..."
-        );
+        setSuccessMsg(messages.passwordUpdateSuccess);
         setResetBtnDisabled(true);
         setTimeout(() => {
           setLoading(false);
@@ -167,11 +158,11 @@ export default function ForgotPassword() {
       } else {
         const data = await response.json();
         console.error("Error resetting password:", data);
-        setErrMsg(data.message);
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (e) {
       console.error("Error resetting password:", e);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }

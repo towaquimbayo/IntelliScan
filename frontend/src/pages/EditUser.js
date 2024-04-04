@@ -5,6 +5,7 @@ import { config } from "../config";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
 import AlertMessage from "../components/AlertMessage";
+import messages from "../messages/lang/en/user.json";
 import "../css/editUser.css";
 
 export default function EditUser() {
@@ -39,16 +40,19 @@ export default function EditUser() {
       } catch (error) {
         console.error("Error during fetch users:", error);
       }
-    }
+    };
     fetchUser();
   }, [id, endpoint]);
 
   useEffect(() => {
     const fetchApiInfo = async () => {
       try {
-        const response = await fetch(endpoint + `/api/v1/protected/api-info/${id}`, {
-          credentials: "include",
-        });
+        const response = await fetch(
+          endpoint + `/api/v1/protected/api-info/${id}`,
+          {
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -69,7 +73,7 @@ export default function EditUser() {
     setErrMsg("");
 
     if (!user.name || !user.email || !(user.api_calls >= 0)) {
-      setErrMsg("Please fill in all fields.");
+      setErrMsg(messages.emptyFieldError);
       setLoading(false);
       return;
     }
@@ -88,18 +92,15 @@ export default function EditUser() {
       } else {
         const data = await response.json();
         console.error("Edit user failed:", data);
-        setErrMsg(
-          data.message ||
-          "An unexpected error occurred. Please try again later."
-        );
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (error) {
       console.error("Error during edit user:", error);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <Layout title="Edit User">
@@ -109,7 +110,10 @@ export default function EditUser() {
           {user ? (
             <div>
               {errMsg && <AlertMessage msg={errMsg} type="error" />}
-              <form onSubmit={(e) => handleUserEdit(e, user._id)} className="edit-user-form">
+              <form
+                onSubmit={(e) => handleUserEdit(e, user._id)}
+                className="edit-user-form"
+              >
                 <div className="form-group">
                   <label htmlFor="name">Name</label>
                   <input

@@ -9,8 +9,9 @@ import Layout from "../components/Layout";
 import AlertMessage from "../components/AlertMessage";
 import Button from "../components/Button";
 import { config } from "../config";
-import "../css/home.css";
 import { updateUserApiCalls } from "../redux/actions/UserAction";
+import messages from "../messages/lang/en/user.json";
+import "../css/home.css";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -183,11 +184,11 @@ export default function Home() {
     setErrMsg("");
     if (file.size > 2097152) {
       // 2MB
-      setErrMsg("File size exceeds 2MB. Please upload a smaller file.");
+      setErrMsg(messages.filesizeExceededError);
       return;
     }
     if (file.type !== "application/pdf") {
-      setErrMsg("Invalid file format. Please upload a PDF file.");
+      setErrMsg(messages.invalidFileTypeError);
       return;
     }
     setUploadFile(file);
@@ -203,20 +204,20 @@ export default function Home() {
     setErrMsg("");
 
     if (!uploadFile) {
-      setErrMsg("Please select a file to upload.");
+      setErrMsg(messages.emptyFileError);
       setLoading(false);
       return;
     }
 
     if (prompt.trim() === "") {
-      setErrMsg("Please enter a prompt.");
+      setErrMsg(messages.emptyPromptError);
       setPrompt("");
       setLoading(false);
       return;
     }
 
     if (prompt.trim().length > 500) {
-      setErrMsg("Prompt cannot exceed 500 characters.");
+      setErrMsg(messages.promptLengthError);
       setLoading(false);
       return;
     }
@@ -251,14 +252,11 @@ export default function Home() {
       } else {
         const data = await response.json();
         console.error("File upload failed", data);
-        setErrMsg(
-          data.message ||
-            "An unexpected error occurred. Please try again later."
-        );
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (error) {
       console.error("Error during file upload:", error);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }

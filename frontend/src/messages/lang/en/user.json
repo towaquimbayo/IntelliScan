@@ -1,0 +1,17 @@
+{
+  "serverError": "An error occurred while processing your request. Please try again later.",
+  "emptyFieldError": "Please fill out all mandatory fields.",
+  "emptyEmailError": "Please enter your email address.",
+  "emptyOtpError": "Please enter the code sent to your email.",
+  "emptyFileError": "Please select a file to upload.",
+  "emptyPromptError": "Please enter a prompt.",
+  "nameLengthError": "Please enter a name at least 3 characters.",
+  "invalidEmailError": "Please enter a valid email address.",
+  "invalidPasswordError": "Password must be at least 3 characters long and contain at least one lowercase letter, one uppercase letter and one number.",
+  "promptLengthError": "Please enter a prompt less than 500 characters.",
+  "forgotPasswordEmailSent": "An email has been sent. Please check your inbox or spam folder for the code.",
+  "otpVerificationSuccess": "Verification successful. Please enter a new password.",
+  "passwordUpdateSuccess": "Password updated successfully. Redirecting you to the login page...",
+  "filesizeExceededError": "File size exceeds 2MB. Please upload a smaller file.",
+  "invalidFileTypeError": "Invalid file format. Please upload a PDF file."
+}

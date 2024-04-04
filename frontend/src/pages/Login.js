@@ -8,8 +8,9 @@ import { setUser } from "../redux/actions/UserAction";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
 import { config } from "../config";
-import "../css/auth.css";
 import AlertMessage from "../components/AlertMessage";
+import messages from "../messages/lang/en/user.json";
+import "../css/auth.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function Login() {
     setErrMsg("");
 
     if (!email || !password) {
-      setErrMsg("Please fill in all fields.");
+      setErrMsg(messages.emptyFieldError);
       setLoading(false);
       return;
     }
@@ -51,20 +52,19 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        dispatch(setUser(true, data.id, data.apiCalls, data.isAdmin, data.name));
+        dispatch(
+          setUser(true, data.id, data.apiCalls, data.isAdmin, data.name)
+        );
         setLoading(false);
         navigate("/");
       } else {
         const data = await response.json();
         console.error("Login failed:", data);
-        setErrMsg(
-          data.message ||
-          "An unexpected error occurred. Please try again later."
-        );
+        setErrMsg(data.message || messages.serverError);
       }
     } catch (error) {
       console.error("Error during login:", error);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export default function Login() {
                     alt="avatar"
                     width={35}
                     height={35}
-                    style={{ borderRadius: "50%"}}
+                    style={{ borderRadius: "50%" }}
                   />
                 </div>
                 <div>

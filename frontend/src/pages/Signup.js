@@ -9,6 +9,7 @@ import Layout from "../components/Layout";
 import Button from "../components/Button";
 import { config } from "../config";
 import AlertMessage from "../components/AlertMessage";
+import messages from "../messages/lang/en/user.json";
 import "../css/auth.css";
 
 export default function Signup() {
@@ -32,27 +33,25 @@ export default function Signup() {
     setErrMsg("");
 
     if (!name || !email || !password) {
-      setErrMsg("Please fill in all fields.");
+      setErrMsg(messages.emptyFieldError);
       setLoading(false);
       return;
     }
 
     if (!validateName(name)) {
-      setErrMsg("Name must be at least 3 characters long.");
+      setErrMsg(messages.nameLengthError);
       setLoading(false);
       return;
     }
 
     if (!validateEmail(email)) {
-      setErrMsg("Please enter a valid email address.");
+      setErrMsg(messages.invalidEmailError);
       setLoading(false);
       return;
     }
 
     if (!validatePassword(password)) {
-      setErrMsg(
-        "Password must be at least 3 characters long and contain at least one lowercase letter, one uppercase letter and one number."
-      );
+      setErrMsg(messages.invalidPasswordError);
       setLoading(false);
       return;
     }
@@ -70,11 +69,11 @@ export default function Signup() {
       } else {
         const data = await response.json();
         console.error("Signup failed:", data);
-        setErrMsg("An unexpected error occurred. Please try again later.");
+        setErrMsg(messages.serverError);
       }
     } catch (error) {
       console.error("Error during signup:", error);
-      setErrMsg("An unexpected error occurred. Please try again later.");
+      setErrMsg(messages.serverError);
     } finally {
       setLoading(false);
     }
