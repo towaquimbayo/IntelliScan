@@ -16,6 +16,7 @@ exports.loginValidation = void 0;
 const zod_1 = require("zod");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = __importDefault(require("../models/User"));
+const user_1 = require("../messages/lang/en/user");
 const loginSchema = zod_1.z.object({
     email: zod_1.z.string().min(6).email(),
     password: zod_1.z.string().min(3)
@@ -30,15 +31,13 @@ const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const user = yield User_1.default.findOne({ email: emailFromBody });
         if (!user) {
-            res.status(400).send({
-                message: 'User not found for the provided email. Please try again.'
-            });
+            res.status(400).send({ message: user_1.messages.userNotFound });
             return;
         }
         const validPass = yield bcryptjs_1.default.compare(passwordFromBody, user.password);
         if (!validPass) {
             res.status(400).send({
-                message: 'Invalid email or password. Please try again.'
+                message: user_1.messages.invalidEmailOrPassword
             });
             return;
         }
@@ -47,7 +46,7 @@ const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
     catch (err) {
         console.error('Error occurred while validating login: ', err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send({ message: user_1.messages.serverError });
     }
 });
 exports.loginValidation = loginValidation;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import User from "../models/User";
+import { messages } from "../messages/lang/en/user";
 
 type RequestBody = {
   email: string;
@@ -29,16 +30,12 @@ export const emailValidation = async (
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
-      res
-        .status(400)
-        .send({
-          message: "User not found for the provided email. Please try again.",
-        });
+      res.status(400).send({ message: messages.userNotFound });
       return;
     }
     next();
   } catch (err) {
     console.error("Error occurred while verifying email: ", err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: messages.serverError });
   }
 };

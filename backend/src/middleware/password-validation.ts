@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
+import { messages } from "../messages/lang/en/user";
 
 // zod Validations
 const userSchema = z
@@ -32,17 +33,14 @@ export const passwordValidation = async (
     // checking to see if the user is already registered
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.status(400).send({
-        message: "User not found for the provided email. Please try again.",
-      });
+      res.status(400).send({ message: messages.userNotFound });
       return;
     }
 
     // checking if the new password is the same as the old password
     if (await bcrypt.compare(newPassword, user.password)) {
       res.status(400).send({
-        message:
-          "New password cannot be the same as the old password. Please try again.",
+        message: messages.samePasswordError,
       });
       return;
     }
@@ -50,6 +48,6 @@ export const passwordValidation = async (
     next();
   } catch (err) {
     console.error("Error occurred while validating user and password: ", err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ message: messages.serverError })
   }
 };

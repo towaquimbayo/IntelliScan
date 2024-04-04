@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { z } from "zod";
 import bcrypt from 'bcryptjs'
 import User from '../models/User';
+import { messages } from '../messages/lang/en/user';
 
 type RequestBody = {
     email: string;
@@ -27,9 +28,7 @@ export const loginValidation = async (req: Request, res: Response, next: NextFun
         // checking if the email exists
         const user = await User.findOne({ email: emailFromBody })
         if (!user) {
-            res.status(400).send({
-                message: 'User not found for the provided email. Please try again.'
-            });
+            res.status(400).send({ message: messages.userNotFound });
             return;
         }
 
@@ -37,7 +36,7 @@ export const loginValidation = async (req: Request, res: Response, next: NextFun
         const validPass = await bcrypt.compare(passwordFromBody, user.password)
         if (!validPass) {
             res.status(400).send({
-                message: 'Invalid email or password. Please try again.'
+                message: messages.invalidEmailOrPassword
             });
             return;
         }
@@ -45,6 +44,6 @@ export const loginValidation = async (req: Request, res: Response, next: NextFun
         next();
     } catch (err) {
         console.error('Error occurred while validating login: ', err)
-        res.status(500).send('Internal Server Error')
+        res.status(500).send({ message: messages.serverError });
     }
 }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerValidation = void 0;
 const zod_1 = require("zod");
 const User_1 = __importDefault(require("../models/User"));
+const user_1 = require("../messages/lang/en/user");
 const registerSchema = zod_1.z.object({
     name: zod_1.z.string().min(3),
     email: zod_1.z.string().min(3).email(),
@@ -32,16 +33,14 @@ const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0,
     try {
         const emailExist = yield User_1.default.findOne({ email: emailFromBody });
         if (emailExist) {
-            res.status(400).send({
-                message: 'An account with this email already exists. Please try again.',
-            });
+            res.status(400).send({ message: user_1.messages.emailExistsError });
             return;
         }
         next();
     }
     catch (err) {
         console.error('Error occurred while validating registration: ', err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).send({ message: user_1.messages.serverError });
     }
 });
 exports.registerValidation = registerValidation;

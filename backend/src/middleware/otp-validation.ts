@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { z } from "zod";
 import User from "../models/User";
 import Otp from "../models/Otp";
+import { messages } from "../messages/lang/en/user";
 
 type RequestBody = {
   email: string;
@@ -30,28 +31,26 @@ export const otpValidation = async (req: Request, res: Response) => {
     if (!user) {
       res
         .status(400)
-        .send({
-          message: "User not found for the provided email. Please try again.",
-        });
+        .send({ message: messages.userNotFound });
       return;
     }
 
     const otp = await Otp.findOne({ email: email });
     if (!otp || !otp.otpCode) {
       console.error("No code found for this email.", email, otp);
-      res.status(400).send({ message: "No code found for this email." });
+      res.status(400).send({ message: messages.noOtpCodeFound });
       return;
     } else if (otp.otpCode !== Number(userOtp)) {
       console.error("Invalid code. Please try again.", userOtp, otp.otpCode);
-      res.status(400).send({ message: "Invalid code. Please try again." });
+      res.status(400).send({ message: messages.invalidOtpCode });
       return;
     }
 
     // Delete the OTP from the database
     await Otp.deleteOne({ email: email });
-    res.status(200).send({ message: "OTP verified successfully." });
+    res.status(200).send({ message: messages.otpValidationSuccess });
   } catch (err) {
     console.error("Error occurred while verifying OTP: ", err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: messages.serverError });
   }
 };

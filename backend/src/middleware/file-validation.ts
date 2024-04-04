@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
+import { messages } from "../messages/lang/en/user";
 
 // zod Validations
 const fileSchema = z
@@ -32,21 +33,19 @@ export const fileValidation = (
   });
   if (!parsed.success) res.status(400).send(parsed.error);
   else {
-    const { prompt } = req.body;
+    const { userId, prompt } = req.body;
     const file = req.file;
-    console.log("File validation middleware:", file, prompt);
 
-    if (!file) return res.status(400).send({ message: "No file uploaded." });
-    if (!prompt)
-      return res.status(400).send({ message: "No prompt provided." });
+    if (!file) return res.status(400).send({ message: messages.noFileFound });
+    if (!prompt) return res.status(400).send({ message: messages.noPromptProvided });
+    if (!userId) return res.status(400).send({ message: messages.noUserIdProvided });
+
     if (file.mimetype !== "application/pdf") {
-      return res
-        .status(400)
-        .send({ message: "Invalid file type. Please upload a PDF file." });
+      return res.status(400).send({ message: messages.invalidFileType });
     }
     if (file.size > 2097152) {
       return res.status(400).send({
-        message: "File size too large. Please upload a file less than 2MB.",
+        message: messages.filesizeExceeded,
       });
     }
     console.log("File validation passed!");

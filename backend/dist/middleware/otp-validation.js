@@ -16,6 +16,7 @@ exports.otpValidation = void 0;
 const zod_1 = require("zod");
 const User_1 = __importDefault(require("../models/User"));
 const Otp_1 = __importDefault(require("../models/Otp"));
+const user_1 = require("../messages/lang/en/user");
 const loginSchema = zod_1.z
     .object({
     email: zod_1.z.string().min(6).email(),
@@ -34,28 +35,26 @@ const otpValidation = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!user) {
             res
                 .status(400)
-                .send({
-                message: "User not found for the provided email. Please try again.",
-            });
+                .send({ message: user_1.messages.userNotFound });
             return;
         }
         const otp = yield Otp_1.default.findOne({ email: email });
         if (!otp || !otp.otpCode) {
             console.error("No code found for this email.", email, otp);
-            res.status(400).send({ message: "No code found for this email." });
+            res.status(400).send({ message: user_1.messages.noOtpCodeFound });
             return;
         }
         else if (otp.otpCode !== Number(userOtp)) {
             console.error("Invalid code. Please try again.", userOtp, otp.otpCode);
-            res.status(400).send({ message: "Invalid code. Please try again." });
+            res.status(400).send({ message: user_1.messages.invalidOtpCode });
             return;
         }
         yield Otp_1.default.deleteOne({ email: email });
-        res.status(200).send({ message: "OTP verified successfully." });
+        res.status(200).send({ message: user_1.messages.otpValidationSuccess });
     }
     catch (err) {
         console.error("Error occurred while verifying OTP: ", err);
-        res.status(500).send({ message: "Internal Server Error" });
+        res.status(500).send({ message: user_1.messages.serverError });
     }
 });
 exports.otpValidation = otpValidation;
