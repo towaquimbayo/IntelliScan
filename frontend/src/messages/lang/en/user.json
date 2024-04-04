@@ -1,5 +1,5 @@
 {
-  "serverError": "An error occurred while processing your request. Please try again later.",
+  "serverError": "An unexpected error occurred. Please try again later.",
   "emptyFieldError": "Please fill out all mandatory fields.",
   "emptyEmailError": "Please enter your email address.",
   "emptyOtpError": "Please enter the code sent to your email.",
