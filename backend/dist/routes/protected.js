@@ -8,4 +8,5 @@ router.get('/', verify_token_1.verify, protected_1.sampleController);
 router.get('/users', verify_token_1.verify, protected_1.fetchUsers);
 router.delete('/users/:id', verify_token_1.verify, protected_1.deleteUser);
 router.put('/users/:id', verify_token_1.verify, protected_1.editUser);
+router.get('/api-info/:id', verify_token_1.verify, protected_1.fetchApiInfo);
 exports.default = router;

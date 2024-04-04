@@ -98,3 +98,19 @@ export const editUser = async (req: Request, res: Response) => {
         res.status(500).send("Internal Server Error");
     }
 }
+
+export const fetchApiInfo = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const api = await Api.find({ user: id })
+        if (!api) {
+            console.error("API not found");
+            return res.status(404).send("API not found");
+        }
+
+        res.status(200).json({ api });
+    } catch (err) {
+        console.error("Error occurred while fetching api info:", err);
+        res.status(500).send("Internal Server Error");
+    }
+}

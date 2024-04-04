@@ -1,0 +1,32 @@
+.api-table th,
+.api-table td {
+  border-bottom: 1px solid #ececec;
+}
+
+.edit-user-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+div.edit-user-form {
+  width: 100%;
+}
+
+.api-table-container {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .edit-user-container {
+    flex-direction: row;
+  }
+
+  div.edit-user-form {
+    width: 50%;
+  }
+
+  .api-table-container {
+    width: 50%;
+  }
+}

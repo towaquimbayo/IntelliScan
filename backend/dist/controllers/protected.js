@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editUser = exports.deleteUser = exports.fetchUsers = exports.sampleController = void 0;
+exports.fetchApiInfo = exports.editUser = exports.deleteUser = exports.fetchUsers = exports.sampleController = void 0;
 const User_1 = __importDefault(require("../models/User"));
 const Api_1 = __importDefault(require("../models/Api"));
 const sampleController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -97,3 +97,19 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.editUser = editUser;
+const fetchApiInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const api = yield Api_1.default.find({ user: id });
+        if (!api) {
+            console.error("API not found");
+            return res.status(404).send("API not found");
+        }
+        res.status(200).json({ api });
+    }
+    catch (err) {
+        console.error("Error occurred while fetching api info:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+exports.fetchApiInfo = fetchApiInfo;
