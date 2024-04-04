@@ -21,6 +21,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Otp_1 = __importDefault(require("../models/Otp"));
 const Api_1 = __importDefault(require("../models/Api"));
+const user_1 = require("../messages/lang/en/user");
 const transporter = nodemailer_1.default.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
@@ -104,7 +105,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         console.error("User not found for the provided email. Please try again.");
         res.status(400).send({
-            message: "User not found for the provided email. Please try again.",
+            message: user_1.messages.userNotFound,
         });
         return;
     }
@@ -121,7 +122,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!apiLogin) {
         console.error("API not found for user login endpoint.");
         res.status(400).send({
-            message: "API not found for user login endpoint.",
+            message: user_1.messages.loginEndpointNotFound,
         });
         return;
     }
@@ -134,7 +135,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!apiPrompt) {
         console.error("API not found for prompt file endpoint.");
         res.status(400).send({
-            message: "API not found for prompt file endpoint.",
+            message: user_1.messages.promptEndpointNotFound,
         });
         return;
     }
@@ -148,7 +149,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     res.send({
         status: 200,
-        message: "User logged in successfully!",
+        message: user_1.messages.userLoginSuccess,
         id: user._id,
         apiCalls: apiPrompt.requests,
         isAdmin: user.admin,
@@ -208,7 +209,7 @@ const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, 
         if (!user) {
             console.error("User not found for the provided email. Please try again.");
             res.status(400).send({
-                message: "User not found for the provided email. Please try again.",
+                message: user_1.messages.userNotFound,
             });
             return;
         }
@@ -219,13 +220,13 @@ const sendForgotPasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0, 
         if (!apiForgotPassword) {
             console.error("API not found for user forgot password endpoint.");
             res.status(400).send({
-                message: "API not found for user forgot password endpoint.",
+                message: user_1.messages.forgotPasswordEndpointNotFound,
             });
             return;
         }
         apiForgotPassword.requests += 1;
         yield apiForgotPassword.save();
-        res.status(200).send("Reset password email sent successfully!");
+        res.status(200).send({ message: user_1.messages.resetPasswordEmailSent });
     }
     catch (err) {
         console.error("Error occurred during sending reset password email: ", err);
@@ -239,7 +240,7 @@ const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield User_1.default.findOne({ email: email });
         if (!user) {
             res.status(400).send({
-                message: "User not found for the provided email. Please try again.",
+                message: user_1.messages.userNotFound,
             });
             return;
         }
@@ -254,17 +255,17 @@ const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (!apiResetPassword) {
             console.error("API not found for user reset password endpoint.");
             res.status(400).send({
-                message: "API not found for user reset password endpoint.",
+                message: user_1.messages.resetPasswordEndpointNotFound,
             });
             return;
         }
         apiResetPassword.requests += 1;
         yield apiResetPassword.save();
-        res.status(200).send("Password updated successfully!");
+        res.status(200).send({ message: user_1.messages.passwordUpdatedSuccess });
     }
     catch (err) {
         console.error("Error occurred while updating password: ", err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send({ message: user_1.messages.serverError });
     }
 });
 exports.updatePassword = updatePassword;

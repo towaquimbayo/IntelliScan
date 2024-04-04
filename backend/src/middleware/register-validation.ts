@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-
 import { z } from "zod";
 import User from "../models/User";
+import { messages } from "../messages/lang/en/user";
 
 // zod Validations
 const registerSchema = z.object({
@@ -27,16 +27,14 @@ export const registerValidation = async (req: Request, res: Response, next: Next
     const { email: emailFromBody }: RequestBody = req.body;
     try {
         // checking to see if the user is already registered
-        const emailExist = await User.findOne({ email: emailFromBody })
+        const emailExist = await User.findOne({ email: emailFromBody });
         if (emailExist) {
-            res.status(400).send({
-                message: 'An account with this email already exists. Please try again.',
-            })
+            res.status(400).send({ message: messages.emailExistsError });
             return;
         }
         next();
     } catch (err) {
-        console.error('Error occurred while validating registration: ', err)
-        res.status(500).send('Internal Server Error')
+        console.error('Error occurred while validating registration: ', err);
+        res.status(500).send({ message: messages.serverError });
     }
 }

@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Otp from "../models/Otp";
 import Api from "../models/Api";
+import { messages } from "../messages/lang/en/user";
 
 // Setup transporter for nodemailer
 const transporter = nodemailer.createTransport({
@@ -104,7 +105,7 @@ export const loginUser = async (req: Request, res: Response) => {
   if (!user) {
     console.error("User not found for the provided email. Please try again.");
     res.status(400).send({
-      message: "User not found for the provided email. Please try again.",
+      message: messages.userNotFound,
     });
     return;
   }
@@ -128,7 +129,7 @@ export const loginUser = async (req: Request, res: Response) => {
   if (!apiLogin) {
     console.error("API not found for user login endpoint.");
     res.status(400).send({
-      message: "API not found for user login endpoint.",
+      message: messages.loginEndpointNotFound,
     });
     return;
   }
@@ -146,7 +147,7 @@ export const loginUser = async (req: Request, res: Response) => {
   if (!apiPrompt) {
     console.error("API not found for prompt file endpoint.");
     res.status(400).send({
-      message: "API not found for prompt file endpoint.",
+      message: messages.promptEndpointNotFound,
     });
     return;
   }
@@ -161,7 +162,7 @@ export const loginUser = async (req: Request, res: Response) => {
   });
   res.send({
     status: 200,
-    message: "User logged in successfully!",
+    message: messages.userLoginSuccess,
     id: user._id,
     apiCalls: apiPrompt.requests,
     isAdmin: user.admin,
@@ -235,7 +236,7 @@ export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
     if (!user) {
       console.error("User not found for the provided email. Please try again.");
       res.status(400).send({
-        message: "User not found for the provided email. Please try again.",
+        message: messages.userNotFound,
       });
       return;
     }
@@ -248,7 +249,7 @@ export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
     if (!apiForgotPassword) {
       console.error("API not found for user forgot password endpoint.");
       res.status(400).send({
-        message: "API not found for user forgot password endpoint.",
+        message: messages.forgotPasswordEndpointNotFound,
       });
       return;
     }
@@ -257,7 +258,7 @@ export const sendForgotPasswordEmail = async (req: Request, res: Response) => {
     apiForgotPassword.requests += 1;
     await apiForgotPassword.save();
 
-    res.status(200).send("Reset password email sent successfully!");
+    res.status(200).send({ message: messages.resetPasswordEmailSent });
   } catch (err) {
     console.error("Error occurred during sending reset password email: ", err);
     res.status(400).send(err);
@@ -276,7 +277,7 @@ export const updatePassword = async (req: Request, res: Response) => {
     const user = await User.findOne({ email: email });
     if (!user) {
       res.status(400).send({
-        message: "User not found for the provided email. Please try again.",
+        message: messages.userNotFound,
       });
       return;
     }
@@ -296,7 +297,7 @@ export const updatePassword = async (req: Request, res: Response) => {
     if (!apiResetPassword) {
       console.error("API not found for user reset password endpoint.");
       res.status(400).send({
-        message: "API not found for user reset password endpoint.",
+        message: messages.resetPasswordEndpointNotFound,
       });
       return;
     }
@@ -305,9 +306,9 @@ export const updatePassword = async (req: Request, res: Response) => {
     apiResetPassword.requests += 1;
     await apiResetPassword.save();
 
-    res.status(200).send("Password updated successfully!");
+    res.status(200).send({ message: messages.passwordUpdatedSuccess });
   } catch (err) {
     console.error("Error occurred while updating password: ", err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ message: messages.serverError });
   }
 };

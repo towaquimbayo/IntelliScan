@@ -17,6 +17,7 @@ const axios_1 = __importDefault(require("axios"));
 const fs_1 = __importDefault(require("fs"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const Api_1 = __importDefault(require("../models/Api"));
+const user_1 = require("../messages/lang/en/user");
 dotenv_1.default.config();
 function getTextFromPdf(base64Pdf) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -31,7 +32,7 @@ function getTextFromPdf(base64Pdf) {
             });
             console.log("LLM API response:", res.data);
             if (!res.data.text)
-                throw new Error("Failed to extract text from PDF.");
+                throw new Error(user_1.messages.llmApiPdfConvertError);
             return res.data.text;
         }
         catch (err) {
@@ -52,7 +53,7 @@ function getModelResponse(prompt, pdfText) {
             });
             console.log("LLM API model response:", res.data);
             if (!res.data.response)
-                throw new Error("Failed to get model response.");
+                throw new Error(user_1.messages.llmApiModelResponseError);
             return res.data.response;
         }
         catch (err) {
@@ -65,26 +66,24 @@ const filePrompt = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { prompt, userId } = req.body;
     const file = req.file;
     if (!file)
-        return res.status(400).send({ message: "No file uploaded." });
+        return res.status(400).send({ message: user_1.messages.noFileFound });
     if (!prompt)
-        return res.status(400).send({ message: "No prompt provided." });
+        return res.status(400).send({ message: user_1.messages.noPromptProvided });
     if (!userId)
-        return res.status(400).send({ message: "No user ID provided." });
+        return res.status(400).send({ message: user_1.messages.noUserIdProvided });
     try {
         const base64file = fs_1.default.readFileSync(file.path, { encoding: "base64" });
         const pdfText = yield getTextFromPdf(base64file);
         console.log("Extracted text from PDF:", pdfText);
         if (!pdfText) {
-            return res
-                .status(400)
-                .send({ message: "Failed to extract text from PDF." });
+            return res.status(400).send({ message: user_1.messages.llmApiPdfConvertError });
         }
         const modelResponse = yield getModelResponse(prompt, pdfText);
         console.log("LLM model response to prompt:", modelResponse);
         if (!modelResponse) {
             return res
                 .status(400)
-                .send({ message: "Failed to get model response based on prompt." });
+                .send({ message: user_1.messages.llmApiModelResponseError });
         }
         const apiPrompt = yield Api_1.default.findOne({
             user: userId,
@@ -93,7 +92,7 @@ const filePrompt = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!apiPrompt) {
             console.error("API not found for prompt file endpoint.");
             return res.status(400).send({
-                message: "API not found for prompt file endpoint.",
+                message: user_1.messages.promptEndpointNotFound,
             });
         }
         apiPrompt.requests += 1;

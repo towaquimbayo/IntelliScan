@@ -10,8 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandlerMiddleware = void 0;
+const user_1 = require("../messages/lang/en/user");
 const errorHandlerMiddleware = (err, req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
-    return res.status(500).send({ message: 'Something went wrong, please try again.' });
+    return res.status(500).send({ message: user_1.messages.serverError });
 });
 exports.errorHandlerMiddleware = errorHandlerMiddleware;

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-
 import jwt from "jsonwebtoken";
+import { messages } from "../messages/lang/en/user";
 
 export const verify = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies['token'];
     if (!token) {
-        console.error('Access denied!!!', token);
-        return res.status(401).send('Access denied!!!')
+        console.error('No access token found.', token);
+        return res.status(401).send({ message: messages.noAccessTokenFound });
     }
 
     try {
@@ -14,6 +14,6 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
         req.user = verify;
         next()
     } catch (err) {
-        return res.status(400).send('Invalid token!!!')
+        return res.status(400).send({ message: messages.accessTokenDenied });
     }
 }
