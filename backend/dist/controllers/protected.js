@@ -52,7 +52,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(404).send({ message: user_1.messages.userNotFound });
         }
         const api = yield Api_1.default.findOne({
-            user: req.userId,
+            user: user.id,
             endpoint: "/api/v1/protected/users/:id",
             method: "DELETE"
         });
@@ -80,7 +80,7 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(404).send({ message: user_1.messages.userNotFound });
         }
         const api = yield Api_1.default.findOne({
-            user: req.userId,
+            user: user.id,
             endpoint: "/api/v1/protected/users/:id",
             method: "PUT"
         });

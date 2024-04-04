@@ -46,7 +46,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         // find user api call
         const api = await Api.findOne({
-            user: req.userId,
+            user: user.id,
             endpoint: "/api/v1/protected/users/:id",
             method: "DELETE"
         });
@@ -79,7 +79,7 @@ export const editUser = async (req: Request, res: Response) => {
 
         // find user api call
         const api = await Api.findOne({
-            user: req.userId,
+            user: user.id,
             endpoint: "/api/v1/protected/users/:id",
             method: "PUT"
         });

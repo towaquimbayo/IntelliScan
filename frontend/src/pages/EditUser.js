@@ -72,7 +72,9 @@ export default function EditUser() {
     setLoading(true);
     setErrMsg("");
 
-    if (!user.name || !user.email || !(user.api_calls >= 0)) {
+    console.log('user', user)
+
+    if (!user.name || !user.email) {
       setErrMsg(messages.emptyFieldError);
       setLoading(false);
       return;
