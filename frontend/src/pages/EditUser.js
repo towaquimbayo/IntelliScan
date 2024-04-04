@@ -147,20 +147,6 @@ export default function EditUser() {
                     <option value="admin">Admin</option>
                   </select>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="apiCalls">API Calls</label>
-                  <input
-                    type="number"
-                    id="apiCalls"
-                    min={0}
-                    max={20}
-                    value={user.api_calls}
-                    onChange={(e) => {
-                      setUser({ ...user, api_calls: e.target.value });
-                      setErrMsg("");
-                    }}
-                  />
-                </div>
                 <Button
                   type="submit"
                   title="Edit"

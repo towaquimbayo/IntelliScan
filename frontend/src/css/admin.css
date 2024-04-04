@@ -98,4 +98,7 @@ h1 {
   .date-head, .date-row {
     display: none;
   }
+  .token-head, .token-row {
+    display: none;
+  }
 }

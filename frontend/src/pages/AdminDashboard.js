@@ -57,6 +57,13 @@ export default function AdminDashboard() {
     }
   }
 
+  const truncateToken = (token) => {
+    if (token.length > 15) {
+      return token.slice(0, 15) + "...";
+    }
+    return token;
+  };
+
   return (
     <Layout title="Admin Dashboard">
       <h1>All Users<span className="num-users">{users.length}</span></h1>
@@ -65,8 +72,8 @@ export default function AdminDashboard() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>API Calls</th>
               <th>Role</th>
+              <th className="token-head">Token</th>
               <th className="date-head">Created Date</th>
               <th></th>
             </tr>
@@ -87,10 +94,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </td>
-                <td>{user.api_calls}</td>
                 <td>
                   <span className="role">{user.admin ? "Admin" : "User"}</span>
                 </td>
+                <td className="token-row">{truncateToken(user.token)}</td>
                 <td className="date-row">{new Date(user.date).toLocaleDateString()}</td>
                 <td className="action">
                   <LucideSquarePen
