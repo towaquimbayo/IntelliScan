@@ -58,7 +58,7 @@ _Admin Dashboard_ -->
 
 ## Features
 - __User Authentication__: Implement JSON Web Tokens for secure user authentication and session management.
-  - __Forgot Password__: Functionality for users to reset their password through a secure process.
+  - __Forgot Password__: Functionality for users to reset their password through a secure OTP process.
 - __PDF Upload__: Capability for users to securely upload PDF documents for analysis.
 - __Ask Questions__: Allows users to input natural language questions about the uploaded PDF.
 - __Admin Dashboard__: Provides a comprehensive dashboard for admins with features including:
