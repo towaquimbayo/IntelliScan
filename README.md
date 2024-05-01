@@ -57,6 +57,9 @@ _Admin Dashboard_ -->
 - Google Gemma `Gemma2B-IT`
 
 ## Features
+> [!CAUTION]
+> Due to maintenance, the ask question API endpoint is temporarily unavailable to prevent misuse.
+> 
 - __User Authentication__: Implement JSON Web Tokens for secure user authentication and session management.
   - __Forgot Password__: Functionality for users to reset their password through a secure OTP process.
 - __PDF Upload__: Capability for users to securely upload PDF documents for analysis.
