@@ -9,18 +9,32 @@ View the project [_here_](https://intelliscan.towaquimbayo.com/).
 * [Acknowledgements](#acknowledgements)
 
 ## Screenshots
-![Login Page](screenshots/login.png)
-Login Page
+<figure>
+  <div style="display: flex;">
+    <div style="flex: 50%; padding: 5px;">
+      <img src="screenshots/login.png" alt="Login Page" />
+      <figcaption>Login Page</figcaption>
+    </div>
+    <div style="flex: 50%; padding: 5px;">
+      <img src="screenshots/forgot_password.png" alt="Forgot Password Page" />
+      <figcaption>Forgot Password Page</figcaption>
+    </div>
+  </div>
+</figure>
 
-![Forgot Password Page](screenshots/forgot_password.png)
-Forgot Password Page
-
-![Landing Page](screenshots/home.png)
-Landing Page
-
-![Admin Dashboard](screenshots/admin_dashboard.png)
-Admin Dashboard
-<!-- <figure>
+<figure>
+  <div style="display: flex;">
+    <div style="flex: 50%; padding: 5px;">
+      <img src="screenshots/home.png" alt="Landing Page" />
+      <figcaption>Landing Page</figcaption>
+    </div>
+    <div style="flex: 50%; padding: 5px;">
+      <img src="screenshots/admin_dashboard.png" alt="Admin Dashboard" />
+      <figcaption>Admin Dashboard</figcaption>
+    </div>
+  </div>
+  
+<!-- </figure>
     <img src="screenshots/login.png" alt="Login Page" />
     <figcaption>Login Page</figcaption>
 </figure>
