@@ -51,13 +51,13 @@ _Admin Dashboard_
 - Google Gemma `Gemma2B-IT`
 
 ## Features
-- User Authentication: Implement JSON Web Tokens for secure user authentication and session management.
-  - Forgot Password: Functionality for users to reset their password through a secure process.
-- PDF Upload: Capability for users to securely upload PDF documents for analysis.
-- Ask Questions: Allows users to input natural language questions about the uploaded PDF.
-- Admin Dashboard: Provides a comprehensive dashboard for admins with features including:
-  - User Management: Control the addition, editing, and removal of user accounts.
-  - API Usage Tracking:  Monitor and analyze API calls and usage patterns.
+- __User Authentication__: Implement JSON Web Tokens for secure user authentication and session management.
+  - __Forgot Password__: Functionality for users to reset their password through a secure process.
+- __PDF Upload__: Capability for users to securely upload PDF documents for analysis.
+- __Ask Questions__: Allows users to input natural language questions about the uploaded PDF.
+- __Admin Dashboard__: Provides a comprehensive dashboard for admins with features including:
+  - __User Management__: Control the addition, editing, and removal of user accounts.
+  - __API Usage Tracking__:  Monitor and analyze API calls and usage patterns.
 
 ## Acknowledgements
 * ![Towa Quimbayo](https://github.com/towaquimbayo)
