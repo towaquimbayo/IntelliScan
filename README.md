@@ -9,7 +9,13 @@
 * [Acknowledgements](#acknowledgements)
 
 ## Screenshots
-![Login Page](screenshots/login.png)
+| ![Login Page](screenshots/login.png) | ![Forgot Password Page](screenshots/forgot_password.png) |
+|:--:|:--:|
+| _Login Page_ | _Forgot Password Page_ |
+| ![Landing Page](screenshots/home.png) | ![Admin Dashboard](screenshots/admin_dashboard.png) |
+| _Landing Page_ | _Admin Dashboard_ |
+
+<!-- ![Login Page](screenshots/login.png)
 _Login Page_
 
 ![Forgot Password Page](screenshots/forgot_password.png)
@@ -19,7 +25,7 @@ _Forgot Password Page_
 _Landing Page_
 
 ![Admin Dashboard](screenshots/admin_dashboard.png)
-_Admin Dashboard_
+_Admin Dashboard_ -->
 
 <!-- <figure>
     <img src="screenshots/login.png" alt="Login Page" />
