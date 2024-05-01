@@ -9,6 +9,25 @@ View the project [_here_](https://intelliscan.towaquimbayo.com/).
 * [Acknowledgements](#acknowledgements)
 
 ## Screenshots
+<figure>
+    <img src="screenshots/login.png" alt="Login Page" />
+    <figcaption>Login Page</figcaption>
+</figure>
+
+<figure>
+    <img src="screenshots/forgot_password.png" alt="Forgot Password Page" />
+    <figcaption>Forgot Password Page</figcaption>
+</figure>
+
+<figure>
+    <img src="screenshots/home.png" alt="Landing Page" />
+    <figcaption>Landing Page</figcaption>
+</figure>
+
+<figure>
+    <img src="screenshots/admin_dashboard.png" alt="Admin Dashboard" />
+    <figcaption>Admin Dashboard</figcaption>
+</figure>
 
 ## Technologies
 - React.js `v18.2.0`
