@@ -10,16 +10,16 @@ View the project [_here_](https://intelliscan.towaquimbayo.com/).
 
 ## Screenshots
 ![Login Page](screenshots/login.png)
-Login Page
+_Login Page_
 
 ![Forgot Password Page](screenshots/forgot_password.png)
-Forgot Password Page
+_Forgot Password Page_
 
 ![Landing Page](screenshots/home.png)
-Landing Page
+_Landing Page_
 
 ![Admin Dashboard](screenshots/admin_dashboard.png)
-Admin Dashboard
+_Admin Dashboard_
 
 <!-- <figure>
     <img src="screenshots/login.png" alt="Login Page" />
