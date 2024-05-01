@@ -1,9 +1,9 @@
 # IntelliScan - AI PDF Chat App
 > An AI-powered tool that enables you to upload and ask questions about any PDF document and receive answers, along with providing an admin dashboard for API usage tracking and user management.
-View the project [_here_](https://intelliscan.towaquimbayo.com/).
+View the project ![_here_](https://intelliscan.towaquimbayo.com/).
 
 ## Table of Contents
-* ![Screenshots](#screenshots)
+* [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Features](#features)
 * [Acknowledgements](#acknowledgements)
@@ -29,6 +29,6 @@ View the project [_here_](https://intelliscan.towaquimbayo.com/).
   - API Usage Tracking:  Monitor and analyze API calls and usage patterns.
 
 ## Acknowledgements
-* [Towa Quimbayo](https://github.com/towaquimbayo)
-* [Juan Escalada](https://github.com/jescalada/)
-* [Maximillian Yong](https://github.com/MaximillianYong)
+* ![Towa Quimbayo](https://github.com/towaquimbayo)
+* ![Juan Escalada](https://github.com/jescalada/)
+* ![Maximillian Yong](https://github.com/MaximillianYong)
