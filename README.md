@@ -66,6 +66,6 @@ _Admin Dashboard_ -->
   - __API Usage Tracking__:  Monitor and analyze API calls and usage patterns.
 
 ## Acknowledgements
-* ![Towa Quimbayo](https://github.com/towaquimbayo)
-* ![Juan Escalada](https://github.com/jescalada/)
-* ![Maximillian Yong](https://github.com/MaximillianYong)
+* [Towa Quimbayo](https://github.com/towaquimbayo)
+* [Juan Escalada](https://github.com/jescalada/)
+* [Maximillian Yong](https://github.com/MaximillianYong)
