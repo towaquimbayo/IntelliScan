@@ -179,7 +179,7 @@ To create a pre quantized model run:
 create accelerated.py
 ```
 
-To run the app cd into the app directory and run:
+To run the app, change directory to the app directory and run:
 
 ```sh
 uvicorn main:app --reload
