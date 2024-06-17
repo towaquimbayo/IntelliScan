@@ -3,7 +3,7 @@
 # IntelliScan
 
 ![IntelliScan Thumbnail](screenshots/intelliscan-thumbnail.jpg)
-An AI-powered web application that enables users to upload PDF files, ask questions based on the document, and receive answers. Utilizing our proprietary AI-Predictive model, the application scans the PDF document and provides answers based on user prompts. Additionally, IntelliScan offers an admin dashboard for administrators to manage users and monitor API usage.
+An AI-powered web application that enables users to upload PDF files, ask questions based on the document, and receive answers. Utilizing our proprietary AI-predictive model, the application scans the PDF document and provides answers based on user prompts. Additionally, IntelliScan offers an admin dashboard for administrators to manage users and monitor API usage.
 
 > [!IMPORTANT]
 > Due to ongoing maintenance, the API endpoint that processes requests sent to the AI model microservice is currently down to prevent misuse. Users can still upload files and submit prompts, but responses will not be returned until the service is restored.
@@ -90,13 +90,13 @@ _Check out the live project [_here_](https://intelliscan.towaquimbayo.com/)._
 
 ### Installation
 
-1. Install latest npm package version.
+1. Install the latest npm package version.
 
   ```sh
   npm install npm@latest -g
   ```
 
-2. Clone the repository to local machine.
+2. Clone the repository to your local machine.
 
   ```sh
   git clone https://github.com/towaquimbayo/IntelliScan.git
@@ -104,14 +104,14 @@ _Check out the live project [_here_](https://intelliscan.towaquimbayo.com/)._
 
 3. Installing required dependencies requires Node and npm.
 
-  Change directory to Frontend and install dependencies:
+  Change the directory to Frontend and install dependencies:
 
   ```sh
   cd frontend
   npm install
   ```
 
-  Change directory to Backend and install dependencies:
+  Change the directory to Backend and install dependencies:
 
   ```sh
   cd backend
@@ -123,7 +123,7 @@ _Check out the live project [_here_](https://intelliscan.towaquimbayo.com/)._
   To run `test.py`, download the required models.
 
   __Note__: Ensure you have `git-lfs` installed.
-  __Note__: Ensure you have at least 30 GB of free space to download. You can delete the `.git` folder after downloading to save storage space.
+  __Note__: Ensure you have at least 30 GB of free space to download. After downloading, you can delete the `.git` folder to save storage space.
 
   ```sh
   git clone https://huggingface.co/google/gemma-2b-it
@@ -140,7 +140,7 @@ For the project to run correctly, environment variables are required __only__ fo
 
 1. `JWT_SECRET` is the encryption key to sign your JWTs (JSON Web Tokens). Create a secret at <https://www.allkeysgenerator.com>.
 2. `JWT_LIFETIME` is the amount of time a particular JWT will be valid for (i.e. `30d` for 30 days).
-3. Sign up for a MongoDB Atlas account at <https://www.mongodb.com/cloud/atlas/register>. Then create a database Cluster and connect your project to that Cluster by clicking on the `Connect`, select the `Connect To Your Application` option and copy the Database `URI` string as your `DATABASE_URL`. Finally, replace the `username` and `password` fields in the URI string with your database credentials.
+3. Sign up for a MongoDB Atlas account at <https://www.mongodb.com/cloud/atlas/register>. Then create a database Cluster and connect your project to that Cluster by clicking on the `Connect`, selecting the `Connect To Your Application` option and copying the Database `URI` string as your `DATABASE_URL`. Finally, replace the `username` and `password` fields in the URI string with your database credentials.
 4. Either enter your email account credentials for the Nodemailer transporter credentials or create a Gmail account to generate an App Password by following the instructions at <https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628>.
 
 </details>
@@ -154,7 +154,7 @@ In order to run the application, you would need the client (frontend) and server
 
 #### Client-Side Usage (Frontend) on PORT: 3000
 
-Change directory to client (`frontend`) and execute `npm start` to run locally in development mode or production mode. For production, make sure to build the app to the `build` folder by executing `npm run build` as this would correctly bundle React in production mode and optimize the build for the best performance.
+Change the directory to the client (`frontend`) and execute `npm start` to run locally in development mode or production mode. For production, make sure to build the app to the `build` folder by executing `npm run build` as this would correctly bundle React in production mode and optimize the build for the best performance.
 
 ```sh
 cd frontend
@@ -163,7 +163,7 @@ npm start
 
 #### Server-Side Usage (Backend) on PORT: 8080
 
-Change directory to server (`backend`) and execute `npm run dev` to run locally in development mode or execute `npm start` to run in production mode. For production, make sure to build the app to the `dist` folder by executing `npm run build` as this would correctly compile TypeScript code to ES5 JavaScript codes and optimize the build for the best performance.
+Change the directory to the server (`backend`) and execute `npm run dev` to run locally in development mode or execute `npm start` to run in production mode. For production, make sure to build the app to the `dist` folder by executing `npm run build` as this would correctly compile TypeScript code to ES5 JavaScript codes and optimize the build for the best performance.
 
 ```sh
 cd backend
@@ -173,13 +173,13 @@ npm run start // running in production mode
 
 #### AI-Predictive Model Usage
 
-To create a pre quantized model run:
+To create a pre-quantized model run:
 
 ```sh
 create accelerated.py
 ```
 
-To run the app, change directory to the app directory and run:
+To run the app, change the directory to the app directory and run:
 
 ```sh
 uvicorn main:app --reload
