@@ -39,7 +39,7 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error during fetch users:", error);
     }
-  }
+  };
 
   const handleUserDelete = async (id) => {
     try {
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error during delete user:", error);
     }
-  }
+  };
 
   const truncateToken = (token) => {
     if (token.length > 15) {
@@ -66,7 +66,9 @@ export default function AdminDashboard() {
 
   return (
     <Layout title="Admin Dashboard">
-      <h1>All Users<span className="num-users">{users.length}</span></h1>
+      <h1>
+        All Users<span className="num-users">{users.length}</span>
+      </h1>
       {users.length > 0 && (
         <table className="user-table">
           <thead>
@@ -97,8 +99,12 @@ export default function AdminDashboard() {
                 <td>
                   <span className="role">{user.admin ? "Admin" : "User"}</span>
                 </td>
-                <td className="token-row">{truncateToken(user.token)}</td>
-                <td className="date-row">{new Date(user.date).toLocaleDateString()}</td>
+                <td className="token-row">
+                  {truncateToken(user?.token || "")}
+                </td>
+                <td className="date-row">
+                  {new Date(user.date).toLocaleDateString()}
+                </td>
                 <td className="action">
                   <LucideSquarePen
                     className="edit-icon"
